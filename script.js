@@ -233,6 +233,11 @@ document.addEventListener('keydown', event => {
   if (event.key === 'ArrowRight' || event.key === 'ArrowDown') deckBar.querySelector('#next-slide').click();
 });
 document.addEventListener('input', event => { if (editing && event.target.isContentEditable) { renderRail(); saveDeck(); } });
+document.addEventListener('dblclick', event => {
+  if (!event.target.closest('.deck-slide')) return;
+  setEditable(true);
+  if (event.target.matches('h1,h2,h3,p,.sectionIntro span')) event.target.focus();
+});
 document.querySelectorAll('[data-audience]').forEach(button => button.addEventListener('click', () => setTimeout(() => { renderRail(); const visible = allSlides().find(slide => !slide.hidden); if (activeSlide()?.hidden && visible) selectSlide(visible.dataset.slideId, {reveal:false}); }, 0)));
 document.querySelector('.apply').addEventListener('click', () => setTimeout(() => { renderRail(); const visible = allSlides().find(slide => !slide.hidden); if (activeSlide()?.hidden && visible) selectSlide(visible.dataset.slideId, {reveal:false}); saveDeck(); }, 0));
 
