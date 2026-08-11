@@ -43,6 +43,12 @@ button { cursor: pointer; }
 .top-actions a, .top-actions button { padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: #fff; text-decoration: none; font-size: 10px; font-weight: 800; }
 .top-actions .publish { color: #fff; background: var(--purple); border-color: var(--purple); }
 .top-actions .publish:disabled { opacity: .5; cursor: wait; }
+.top-actions .export-action { color: #5630d8; border-color: #c5b8ff; background: #f5f2ff; }
+.top-actions .export-action:disabled { opacity: .5; cursor: wait; }
+
+.export-canvas-host { position: fixed; left: -100000px; top: 0; width: 1280px; height: 720px; overflow: hidden; pointer-events: none; }
+.export-canvas-host .admin-stage { width: 1280px; height: 720px; max-width: none; aspect-ratio: auto; box-shadow: none; border-radius: 0; }
+.export-canvas-host .editable-layer { cursor: default; }
 
 .page-panel { min-height: 0; display: flex; flex-direction: column; color: #fff; background: var(--navy); border-right: 1px solid #1e2a44; }
 .panel-title { display: flex; justify-content: space-between; align-items: center; padding: 15px 14px 9px; color: #8290a9; font-size: 10px; letter-spacing: 1px; }
@@ -145,6 +151,7 @@ button { cursor: pointer; }
   .document-name { display: none; }
   .top-actions { justify-content: flex-end; }
   .top-actions .quiet, .top-actions a { display: none; }
+  .top-actions .export-action { padding: 8px 7px; }
   .page-panel { grid-row: 2 / 4; }
   .editing-area { grid-column: 2; grid-row: 2; }
   .inspector { grid-column: 2; grid-row: 3; border-left: 0; border-top: 1px solid var(--line); }

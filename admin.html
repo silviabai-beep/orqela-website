@@ -26,6 +26,8 @@
       <div class="document-name"><b>投资人客户介绍 v3.6</b><span id="save-state">正在载入发布版本…</span></div>
       <div class="top-actions">
         <a href="index.html" target="_blank" rel="noopener">预览网站</a>
+        <button id="export-pptx" class="export-action">生成 PPT</button>
+        <button id="export-pdf" class="export-action">生成 PDF</button>
         <button id="logout-button" class="quiet">退出</button>
         <button id="publish-button" class="publish">发布到 GitHub</button>
       </div>
@@ -123,6 +125,9 @@
 
   <input id="admin-image-picker" type="file" accept="image/png,image/jpeg,image/webp" hidden>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="admin.js?v=6"></script>
+  <script src="vendor/html2canvas.min.js?v=1"></script>
+  <script src="vendor/jspdf.umd.min.js?v=1"></script>
+  <script src="vendor/pptxgen.bundle.js?v=1"></script>
+  <script type="module" src="admin.js?v=7"></script>
 </body>
 </html>

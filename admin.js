@@ -19,6 +19,8 @@ const ui = {
   loginButton: document.querySelector('#login-button'),
   logout: document.querySelector('#logout-button'),
   publish: document.querySelector('#publish-button'),
+  exportPptx: document.querySelector('#export-pptx'),
+  exportPdf: document.querySelector('#export-pdf'),
   saveState: document.querySelector('#save-state'),
   userLabel: document.querySelector('#user-label'),
   list: document.querySelector('#admin-slide-list'),
@@ -704,6 +706,98 @@ async function publish() {
   }
 }
 
+function exportFileName(extension) {
+  const language = state.activeLanguage === 'en' ? 'EN' : 'ZH';
+  return `ORQELA-v3.6-${language}.${extension}`;
+}
+
+async function captureSlidesForExport() {
+  if (!window.html2canvas) throw new Error('导出组件尚未载入，请刷新页面后重试');
+  const originalId = state.activeId;
+  const originalSelection = state.selectedLayerId;
+  const images = [];
+  const host = document.createElement('div');
+  host.className = 'export-canvas-host';
+  document.body.appendChild(host);
+  state.selectedLayerId = null;
+  try {
+    for (let index = 0; index < slides().length; index += 1) {
+      state.activeId = slides()[index].id;
+      renderStage();
+      ui.saveState.textContent = `正在生成第 ${index + 1} / ${slides().length} 页…`;
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      const clone = ui.stage.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.querySelectorAll('[contenteditable]').forEach(node => node.removeAttribute('contenteditable'));
+      clone.querySelectorAll('.resize-handle').forEach(node => node.remove());
+      clone.querySelectorAll('.selected').forEach(node => node.classList.remove('selected'));
+      host.replaceChildren(clone);
+      await Promise.all([...clone.querySelectorAll('img')].map(image => image.complete
+        ? Promise.resolve()
+        : new Promise(resolve => { image.onload = image.onerror = resolve; })));
+      const canvas = await window.html2canvas(clone, {
+        backgroundColor: '#07142b',
+        scale: 1.5,
+        useCORS: true,
+        logging: false,
+        width: 1280,
+        height: 720
+      });
+      images.push(canvas.toDataURL('image/jpeg', 0.94));
+    }
+    return images;
+  } finally {
+    host.remove();
+    state.activeId = originalId;
+    state.selectedLayerId = originalSelection;
+    render();
+  }
+}
+
+async function runExport(kind) {
+  const button = kind === 'pptx' ? ui.exportPptx : ui.exportPdf;
+  const originalLabel = button.textContent;
+  ui.exportPptx.disabled = true;
+  ui.exportPdf.disabled = true;
+  button.textContent = '正在生成…';
+  try {
+    const images = await captureSlidesForExport();
+    if (kind === 'pptx') {
+      if (!window.PptxGenJS) throw new Error('PPT 组件尚未载入，请刷新页面后重试');
+      const pptx = new window.PptxGenJS();
+      pptx.layout = 'LAYOUT_WIDE';
+      pptx.author = 'ORQELA';
+      pptx.company = 'ORQELA';
+      pptx.subject = 'ORQELA Investment Presentation';
+      pptx.title = state.deck.title;
+      pptx.lang = state.activeLanguage === 'en' ? 'en-US' : 'zh-CN';
+      images.forEach(data => {
+        const slide = pptx.addSlide();
+        slide.background = { color: '07142B' };
+        slide.addImage({ data, x: 0, y: 0, w: 13.333, h: 7.5 });
+      });
+      await pptx.writeFile({ fileName: exportFileName('pptx') });
+    } else {
+      if (!window.jspdf?.jsPDF) throw new Error('PDF 组件尚未载入，请刷新页面后重试');
+      const pdf = new window.jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [1280, 720], hotfixes: ['px_scaling'], compress: true });
+      images.forEach((data, index) => {
+        if (index) pdf.addPage([1280, 720], 'landscape');
+        pdf.addImage(data, 'JPEG', 0, 0, 1280, 720, undefined, 'FAST');
+      });
+      pdf.save(exportFileName('pdf'));
+    }
+    ui.saveState.textContent = `${kind === 'pptx' ? 'PPT' : 'PDF'} 已生成，共 ${images.length} 页`;
+    showToast(`${kind === 'pptx' ? 'PPT' : 'PDF'} 已下载`, 'success');
+  } catch (error) {
+    ui.saveState.textContent = '导出失败，请重试';
+    showToast(error.message || '导出失败', 'error');
+  } finally {
+    button.textContent = originalLabel;
+    ui.exportPptx.disabled = false;
+    ui.exportPdf.disabled = false;
+  }
+}
+
 ui.stage.addEventListener('click', event => {
   if (event.target.closest('[contenteditable="true"]')) return;
   state.selectedLayerId = null;
@@ -733,6 +827,8 @@ document.querySelector('#add-text-layer').addEventListener('click', addTextLayer
 document.querySelector('#add-shape-layer').addEventListener('click', addShapeLayer);
 document.querySelector('#delete-layer').addEventListener('click', deleteLayer);
 ui.publish.addEventListener('click', publish);
+ui.exportPptx.addEventListener('click', () => runExport('pptx'));
+ui.exportPdf.addEventListener('click', () => runExport('pdf'));
 ui.logout.addEventListener('click', async () => { await fetch('/api/auth/logout', { method: 'POST' }); location.reload(); });
 [ui.layerText, ui.layerTextEn, ui.layerX, ui.layerY, ui.layerW, ui.layerH, ui.layerFontSize, ui.layerAlign, ui.layerColor, ui.layerBackground, ui.layerBorderColor, ui.layerBorderWidth, ui.layerRadius, ui.layerOpacity, ui.layerRotation, ui.layerTransparent, ui.layerBold]
   .forEach(control => control.addEventListener('input', updateLayerFromControls));
