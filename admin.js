@@ -1,4 +1,4 @@
-import { seedNativeElements } from './native-elements.js';
+import { seedNativeElements } from './native-elements.js?v=3';
 
 const isLocalDemo = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 const state = {
@@ -101,7 +101,7 @@ function normalizeDeck(deck) {
     const title = String(slide.title || `第 ${index + 1} 页`);
     const sourceLayers = Array.isArray(slide.layers) ? slide.layers : [];
     const customLayers = sourceLayers.filter(layer => !String(layer.id || '').startsWith('native-'));
-    const hydratedLayers = Number(slide.nativeVersion) >= 2 ? sourceLayers : [...customLayers, ...seedNativeElements(index)];
+    const hydratedLayers = Number(slide.nativeVersion) >= 3 ? sourceLayers : [...customLayers, ...seedNativeElements(index)];
     return {
     id: String(slide.id || `slide-${index + 1}`),
     src: String(slide.src || ''),
@@ -117,7 +117,7 @@ function normalizeDeck(deck) {
         body: String(slide.content?.en?.body || '')
       }
     },
-    nativeVersion: 2,
+    nativeVersion: 3,
     layers: hydratedLayers.map(layer => ({
       id: String(layer.id || `text-${Date.now()}-${index}`),
       type: ['text', 'shape', 'image'].includes(layer.type) ? layer.type : 'text',
@@ -386,7 +386,7 @@ function movePage(position) {
 }
 
 function addPage() {
-  const slide = { id: `slide-${Date.now()}`, src: '', title: '新页面', note: '', nativeVersion: 2, content: { zh: { title: '新页面', body: '' }, en: { title: 'New Slide', body: '' } }, layers: [] };
+  const slide = { id: `slide-${Date.now()}`, src: '', title: '新页面', note: '', nativeVersion: 3, content: { zh: { title: '新页面', body: '' }, en: { title: 'New Slide', body: '' } }, layers: [] };
   slides().splice(activeIndex() + 1, 0, slide);
   state.activeId = slide.id;
   state.selectedLayerId = null;

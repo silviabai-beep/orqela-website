@@ -93,10 +93,10 @@ export function seedNativeElements(index) {
       ];
     case 10:
       return [
-        shape(page, 1, '前端收入', 'FRONT-END', 54, 33, 19, 10, purple, { radius: 999 }),
-        shape(page, 2, 'SaaS 订阅\nUsage\n数据与合规模块', 'SaaS Subscription\nUsage\nData & Compliance', 53, 46, 21, 34, '#241c57', { borderColor: violet, borderWidth: 2 }),
-        shape(page, 3, '后端收入', 'BACK-END', 77, 33, 18, 10, green, { radius: 999 }),
-        shape(page, 4, '采购协同\n供应商服务\n交易佣金', 'Procurement\nSupplier Services\nTransaction Fees', 76, 46, 20, 34, '#123a3a', { borderColor: green, borderWidth: 2 })
+        shape(page, 1, '前端收入', 'FRONT-END', 54, 33, 20, 10, purple, { radius: 999, fontSize: 28 }),
+        shape(page, 2, 'SaaS 订阅\nUsage\n数据与合规模块', 'SaaS Subscription\nUsage\nData & Compliance', 53, 45, 22, 37, '#211650', { borderColor: '#9b7aff', borderWidth: 3, fontSize: 32 }),
+        shape(page, 3, '后端收入', 'BACK-END', 77, 33, 19, 10, green, { radius: 999, fontSize: 28 }),
+        shape(page, 4, '采购协同\n供应商服务\n交易佣金', 'Procurement\nSupplier Services\nTransaction Fees', 76, 45, 21, 37, '#0b3531', { borderColor: '#20d5a8', borderWidth: 3, fontSize: 32 })
       ];
     case 11:
       return cards(page, [['阶段 1\n验证产品', 'PHASE 1\nValidate'], ['阶段 2\n扩大网络', 'PHASE 2\nScale Network'], ['阶段 3\n复制市场', 'PHASE 3\nReplicate']], [purple, blue, green], 37, 35).map((item, i) => ({ ...item, y: item.y + i * 4, h: 28 }));
@@ -106,7 +106,8 @@ export function seedNativeElements(index) {
         ...[['MVP', 'MVP'], ['BUILD', 'BUILD'], ['美国闭环', 'U.S. LOOP'], ['多市场复制', 'MULTI-MARKET']].map((label, i) => shape(page, i + 2, label[0], label[1], 54 + i * 11, 43 + (i % 2) * 17, 10, 10, [purple, blue, green, gold][i], { radius: 999, fontSize: 14 }))
       ];
     case 13:
-      return cards(page, [['US Pack', 'US Pack'], ['EU / UK Pack', 'EU / UK Pack'], ['Indonesia / UAE', 'Indonesia / UAE'], ['LatAm', 'LatAm']], [purple, blue, green, gold], 34, 22);
+      return cards(page, [['US Pack', 'US Pack'], ['EU / UK Pack', 'EU / UK Pack'], ['Indonesia / UAE', 'Indonesia / UAE'], ['LatAm', 'LatAm']], [purple, blue, green, gold], 34, 23)
+        .map(item => ({ ...item, fontSize: 30, borderColor: '#ffffff55', borderWidth: 2, radius: 22 }));
     case 14:
       return [
         shape(page, 1, '轻资产', 'ASSET-LIGHT', 55, 31, 19, 12, purple, { radius: 999 }),
@@ -117,10 +118,10 @@ export function seedNativeElements(index) {
       ];
     case 15:
       return [
-        shape(page, 1, 'SELL', 'SELL', 55, 55, 12, 12, purple, { radius: 999, fontSize: 25 }),
-        shape(page, 2, 'BUY', 'BUY', 69, 55, 12, 12, blue, { radius: 999, fontSize: 25 }),
-        shape(page, 3, 'BUILD', 'BUILD', 83, 55, 12, 12, green, { radius: 999, fontSize: 25 }),
-        shape(page, 4, 'ORQELA', 'ORQELA', 62, 73, 27, 10, navy, { borderColor: violet, borderWidth: 2, radius: 999, fontSize: 22 })
+        shape(page, 1, 'SELL', 'SELL', 55, 54, 12, 13, purple, { radius: 999, fontSize: 34 }),
+        shape(page, 2, 'BUY', 'BUY', 69, 54, 12, 13, blue, { radius: 999, fontSize: 34 }),
+        shape(page, 3, 'BUILD', 'BUILD', 83, 54, 12, 13, green, { radius: 999, fontSize: 34 }),
+        shape(page, 4, 'ORQELA', 'ORQELA', 62, 72, 27, 11, '#0d2348', { borderColor: '#9b7aff', borderWidth: 3, radius: 999, fontSize: 30 })
       ];
     default:
       return [];

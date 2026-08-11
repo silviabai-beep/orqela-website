@@ -1,4 +1,4 @@
-import { seedNativeElements } from './native-elements.js';
+import { seedNativeElements } from './native-elements.js?v=3';
 
 const CANVA_URL = 'https://www.canva.com/design/DAHR8BHX_j4/PBM6m6QJqnxjpvj5RPpnGg/edit';
 const STORAGE_KEY = 'orqela-public-draft-v3';
@@ -36,7 +36,7 @@ function normalizeSlide(slide, index) {
   const title = String(slide.title || `第 ${index + 1} 页`);
   const sourceLayers = Array.isArray(slide.layers) ? slide.layers : [];
   const customLayers = sourceLayers.filter(layer => !String(layer.id || '').startsWith('native-'));
-  const hydratedLayers = Number(slide.nativeVersion) >= 2 ? sourceLayers : [...customLayers, ...seedNativeElements(index)];
+  const hydratedLayers = Number(slide.nativeVersion) >= 3 ? sourceLayers : [...customLayers, ...seedNativeElements(index)];
   return {
     id: String(slide.id || `slide-${index + 1}`),
     src: String(slide.src || ''),
@@ -46,7 +46,7 @@ function normalizeSlide(slide, index) {
       zh: { title: String(slide.content?.zh?.title || title), body: String(slide.content?.zh?.body || slide.note || '') },
       en: { title: String(slide.content?.en?.title || ''), body: String(slide.content?.en?.body || '') }
     },
-    nativeVersion: 2,
+    nativeVersion: 3,
     layers: hydratedLayers.map(layer => ({
       ...layer,
       type: ['text', 'shape', 'image'].includes(layer.type) ? layer.type : 'text',
@@ -194,7 +194,7 @@ function step(amount) {
 }
 
 function addSlide() {
-  const slide = { id: `custom-${Date.now()}`, src: '', title: '新页面', note: '可输入备注，或上传页面图。', nativeVersion: 2, content: { zh: { title: '新页面', body: '可输入备注，或上传页面图。' }, en: { title: 'New Slide', body: 'Add notes or upload a slide image.' } }, layers: [], custom: true };
+  const slide = { id: `custom-${Date.now()}`, src: '', title: '新页面', note: '可输入备注，或上传页面图。', nativeVersion: 3, content: { zh: { title: '新页面', body: '可输入备注，或上传页面图。' }, en: { title: 'New Slide', body: 'Add notes or upload a slide image.' } }, layers: [], custom: true };
   slides.splice(activeIndex() + 1, 0, slide);
   activeId = slide.id;
   persist('草稿中已新增页面');
