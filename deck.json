@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "title": "ORQELA 投资人客户介绍 v3.6",
+  "updatedAt": "2026-08-11T00:00:00.000Z",
+  "slides": [
+    { "id": "canva-1", "src": "assets/slides/1.png?v=20260811", "title": "ORQELA v3.6 · 第 1 页", "layers": [] },
+    { "id": "canva-2", "src": "assets/slides/2.png?v=20260811", "title": "ORQELA v3.6 · 第 2 页", "layers": [] },
+    { "id": "canva-3", "src": "assets/slides/3.png?v=20260811", "title": "ORQELA v3.6 · 第 3 页", "layers": [] },
+    { "id": "canva-4", "src": "assets/slides/4.png?v=20260811", "title": "ORQELA v3.6 · 第 4 页", "layers": [] },
+    { "id": "canva-5", "src": "assets/slides/5.png?v=20260811", "title": "ORQELA v3.6 · 第 5 页", "layers": [] },
+    { "id": "canva-6", "src": "assets/slides/6.png?v=20260811", "title": "ORQELA v3.6 · 第 6 页", "layers": [] },
+    { "id": "canva-7", "src": "assets/slides/7.png?v=20260811", "title": "ORQELA v3.6 · 第 7 页", "layers": [] },
+    { "id": "canva-8", "src": "assets/slides/8.png?v=20260811", "title": "ORQELA v3.6 · 第 8 页", "layers": [] },
+    { "id": "canva-9", "src": "assets/slides/9.png?v=20260811", "title": "ORQELA v3.6 · 第 9 页", "layers": [] },
+    { "id": "canva-10", "src": "assets/slides/10.png?v=20260811", "title": "ORQELA v3.6 · 第 10 页", "layers": [] },
+    { "id": "canva-11", "src": "assets/slides/11.png?v=20260811", "title": "ORQELA v3.6 · 第 11 页", "layers": [] },
+    { "id": "canva-12", "src": "assets/slides/12.png?v=20260811", "title": "ORQELA v3.6 · 第 12 页", "layers": [] },
+    { "id": "canva-13", "src": "assets/slides/13.png?v=20260811", "title": "ORQELA v3.6 · 第 13 页", "layers": [] },
+    { "id": "canva-14", "src": "assets/slides/14.png?v=20260811", "title": "ORQELA v3.6 · 第 14 页", "layers": [] },
+    { "id": "canva-15", "src": "assets/slides/15.png?v=20260811", "title": "ORQELA v3.6 · 第 15 页", "layers": [] }
+  ]
+}

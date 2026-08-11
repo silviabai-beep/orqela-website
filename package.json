@@ -1,0 +1,9 @@
+{
+  "name": "orqela-publish-studio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "check": "node --check script.js && node --check admin.js && node --check api/_lib.js && node --check api/publish.js"
+  }
+}

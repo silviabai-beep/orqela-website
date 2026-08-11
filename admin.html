@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07142b">
+  <meta name="robots" content="noindex,nofollow">
+  <title>ORQELA｜在线编辑器</title>
+  <link rel="stylesheet" href="admin.css?v=1">
+</head>
+<body>
+  <section id="login-view" class="login-view">
+    <div class="login-card">
+      <span class="brand-mark">Q</span>
+      <p class="eyebrow">ORQELA PUBLISH STUDIO</p>
+      <h1>直接编辑并发布到 GitHub</h1>
+      <p>登录后可以调整页面顺序、替换图片、增加文字图层，并把结果直接发布到网站。</p>
+      <a id="login-button" class="github-login" href="/api/auth/login">使用 GitHub 登录</a>
+      <small>只允许 ORQELA 仓库管理员进入。登录令牌不会暴露在浏览器脚本中。</small>
+    </div>
+  </section>
+
+  <div id="editor-view" class="editor-view" hidden>
+    <header class="editor-topbar">
+      <div class="editor-brand"><span class="brand-mark small">Q</span><div><b>ORQELA</b><small>PUBLISH STUDIO</small></div></div>
+      <div class="document-name"><b>投资人客户介绍 v3.6</b><span id="save-state">正在载入发布版本…</span></div>
+      <div class="top-actions">
+        <a href="index.html" target="_blank" rel="noopener">预览网站</a>
+        <button id="logout-button" class="quiet">退出</button>
+        <button id="publish-button" class="publish">发布到 GitHub</button>
+      </div>
+    </header>
+
+    <aside class="page-panel">
+      <div class="panel-title"><span>页面</span><b id="page-count">0</b></div>
+      <div id="admin-slide-list" class="admin-slide-list" aria-label="可拖拽页面列表"></div>
+      <div class="page-actions">
+        <button id="add-page" class="accent">＋ 新增页</button>
+        <button id="duplicate-page">复制</button>
+        <button id="delete-page">删除</button>
+        <button id="replace-page-image">替换底图</button>
+      </div>
+    </aside>
+
+    <main class="editing-area">
+      <div class="editing-toolbar">
+        <button id="previous-page" aria-label="上一页">←</button>
+        <label>页码 <input id="admin-page-number" type="number" min="1" value="1"></label>
+        <span id="admin-page-total">/ 0</span>
+        <button id="next-page" aria-label="下一页">→</button>
+        <span class="separator"></span>
+        <button id="add-text-layer" class="accent-outline">＋ 添加文字</button>
+        <span class="tip">拖动文字改变位置 · 右侧调整样式</span>
+      </div>
+      <div class="admin-canvas-shell">
+        <div id="admin-stage" class="admin-stage">
+          <img id="admin-slide-image" alt="当前编辑页面">
+          <div id="admin-blank" class="admin-blank" hidden>新页面</div>
+          <div id="admin-layer-host" class="admin-layer-host"></div>
+        </div>
+      </div>
+      <footer class="editor-footer"><span id="user-label">GitHub 管理员</span><span>发布后 GitHub Pages 与 Vercel 会自动更新</span></footer>
+    </main>
+
+    <aside class="inspector">
+      <div class="inspector-heading"><b>页面设置</b><span id="selection-label">未选择文字</span></div>
+      <label class="field">页面标题<input id="slide-title" type="text" placeholder="用于左侧页面列表"></label>
+      <label class="field">底图地址<input id="slide-src" type="text" readonly></label>
+      <hr>
+      <div id="layer-empty" class="empty-inspector">
+        <b>添加可编辑文字</b>
+        <p>原有 Canva 页面作为底图保留。新增的文字可以覆盖旧内容，并可随时修改。</p>
+      </div>
+      <div id="layer-controls" hidden>
+        <label class="field">文字内容<textarea id="layer-text" rows="5"></textarea></label>
+        <div class="field-grid">
+          <label class="field">X (%)<input id="layer-x" type="number" min="0" max="100" step="0.1"></label>
+          <label class="field">Y (%)<input id="layer-y" type="number" min="0" max="100" step="0.1"></label>
+          <label class="field">宽 (%)<input id="layer-w" type="number" min="2" max="100" step="0.1"></label>
+          <label class="field">高 (%)<input id="layer-h" type="number" min="2" max="100" step="0.1"></label>
+          <label class="field">字号<input id="layer-font-size" type="number" min="10" max="180"></label>
+          <label class="field">对齐<select id="layer-align"><option value="left">左</option><option value="center">中</option><option value="right">右</option></select></label>
+        </div>
+        <div class="field-grid">
+          <label class="field">文字颜色<input id="layer-color" type="color"></label>
+          <label class="field">背景颜色<input id="layer-background" type="color"></label>
+        </div>
+        <label class="check-field"><input id="layer-transparent" type="checkbox"> 透明背景</label>
+        <label class="check-field"><input id="layer-bold" type="checkbox"> 粗体</label>
+        <button id="delete-layer" class="danger">删除文字图层</button>
+      </div>
+      <div class="publish-note">
+        <b>发布说明</b>
+        <p>每次发布会在 GitHub 生成一条提交记录。图片替换和页面数据会在同一次发布中完成。</p>
+      </div>
+    </aside>
+  </div>
+
+  <input id="admin-image-picker" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="admin.js?v=1"></script>
+</body>
+</html>

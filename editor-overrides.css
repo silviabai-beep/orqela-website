@@ -1,0 +1,32 @@
+.stage {
+  container-type: inline-size;
+}
+
+.slide-layers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.published-text-layer {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  padding: .35em .5em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.16;
+  border-radius: .18em;
+}
+
+.toolbar .admin-link {
+  background: #07142b;
+  color: #fff;
+  border-color: #07142b;
+}
+
+.toolbar .admin-link:hover {
+  background: #122343;
+  color: #fff;
+  border-color: #6b35ff;
+}

@@ -6,7 +6,8 @@
   <meta name="theme-color" content="#07142b">
   <meta name="description" content="ORQELA 投资人客户介绍 v3.6 - 可排序的网页幻灯片">
   <title>ORQELA v3.6｜演示文稿</title>
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="editor-overrides.css?v=1">
 </head>
 <body>
   <aside class="rail" aria-label="幻灯片导航">
@@ -19,7 +20,7 @@
       <button id="delete-slide">删除</button>
       <button id="replace-image">替换图片</button>
     </div>
-    <p class="rail-help">拖动缩略图调整顺序。所有更改仅保存在当前浏览器。</p>
+    <p class="rail-help">浏览页面或进入在线编辑器，将更改直接发布到 GitHub。</p>
   </aside>
 
   <main class="workspace">
@@ -30,8 +31,9 @@
         <label>页码 <input id="page-number" type="number" min="1" value="1" aria-label="当前页码"></label>
         <span id="page-total">/ 15</span>
         <button id="next-slide" aria-label="下一页">→</button>
-        <button id="save-deck">保存</button>
+        <button id="save-deck">保存草稿</button>
         <button id="reset-deck">恢复 15 页</button>
+        <a class="admin-link" href="admin.html">在线编辑</a>
         <a class="canva" href="https://www.canva.com/design/DAHR8BHX_j4/PBM6m6QJqnxjpvj5RPpnGg/edit" target="_blank" rel="noopener">在 Canva 编辑 ↗</a>
         <button id="present-deck" class="present">演示</button>
       </div>
@@ -41,6 +43,7 @@
       <button class="stage-nav prev" id="stage-prev" aria-label="上一页">‹</button>
       <div class="stage" id="stage">
         <img id="slide-image" alt="当前 ORQELA 幻灯片">
+        <div id="slide-layers" class="slide-layers" aria-hidden="true"></div>
         <div id="blank-slide" class="blank-slide" hidden>
           <span>ORQELA</span>
           <h1 contenteditable="true" spellcheck="false">双击输入新页面标题</h1>
@@ -52,6 +55,6 @@
     <footer><span id="status">已加载 Canva v3.6</span><span>方向键翻页 · Esc 退出演示</span></footer>
   </main>
   <input id="image-picker" type="file" accept="image/*" hidden>
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>
