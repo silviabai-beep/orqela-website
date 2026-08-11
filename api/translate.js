@@ -31,7 +31,7 @@ export async function POST(request) {
     if (totalLength > 12000) return json({ error: '当前页面文字过长，请缩短后重试' }, 413);
 
     const { output } = await generateText({
-      model: 'openai/gpt-5.6-terra',
+      model: 'inclusionai/ling-3.0-tiny-free',
       output: Output.object({ schema: translationSchema }),
       providerOptions: {
         gateway: {
@@ -57,6 +57,9 @@ ${JSON.stringify({ title, body, layers })}`
     if (status === 402) return json({ error: 'Vercel AI Gateway 额度不足，请在 Vercel 中充值后重试' }, 402);
     if (status === 403 && /credit card|customer_verification_required/i.test(String(error?.message || error?.cause?.responseBody || ''))) {
       return json({ error: '请先在 Vercel AI Gateway 添加有效银行卡，解锁 AI 翻译额度后重试' }, 402);
+    }
+    if (status === 403 && /free tier|paid credits|restrictedmodels/i.test(String(error?.message || error?.cause?.responseBody || ''))) {
+      return json({ error: '当前 AI 模型需要付费额度，请充值或联系管理员切换模型' }, 402);
     }
     if (status === 429) return json({ error: '翻译请求过于频繁，请稍后重试' }, 429);
     return json({ error: '英文自动生成暂时失败，请稍后重试' }, 503);
