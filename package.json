@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "check": "node --check script.js && node --check admin.js && node --check api/_lib.js && node --check api/publish.js && node --check api/translate.js"
+    "check": "node --check native-elements.js && node --check script.js && node --check admin.js && node --check api/_lib.js && node --check api/publish.js && node --check api/translate.js"
   },
   "dependencies": {
     "ai": "^7.0.58",

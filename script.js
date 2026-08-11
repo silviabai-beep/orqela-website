@@ -1,3 +1,5 @@
+import { seedNativeElements } from './native-elements.js';
+
 const CANVA_URL = 'https://www.canva.com/design/DAHR8BHX_j4/PBM6m6QJqnxjpvj5RPpnGg/edit';
 const STORAGE_KEY = 'orqela-public-draft-v3';
 const fallbackSlides = Array.from({ length: 15 }, (_, index) => ({
@@ -16,6 +18,7 @@ const englishSlide = document.querySelector('#english-slide');
 const englishTitle = document.querySelector('#english-slide-title');
 const englishBody = document.querySelector('#english-slide-body');
 const englishNumber = document.querySelector('#english-slide-number');
+const nativeKicker = document.querySelector('#native-slide-kicker');
 const languageZh = document.querySelector('#public-language-zh');
 const languageEn = document.querySelector('#public-language-en');
 const pageInput = document.querySelector('#page-number');
@@ -31,6 +34,9 @@ let activeLanguage = 'zh';
 
 function normalizeSlide(slide, index) {
   const title = String(slide.title || `第 ${index + 1} 页`);
+  const sourceLayers = Array.isArray(slide.layers) ? slide.layers : [];
+  const hasNativeLayers = sourceLayers.some(layer => String(layer.id || '').startsWith('native-'));
+  const hydratedLayers = slide.nativeVersion || hasNativeLayers ? sourceLayers : [...sourceLayers, ...seedNativeElements(index)];
   return {
     id: String(slide.id || `slide-${index + 1}`),
     src: String(slide.src || ''),
@@ -40,7 +46,14 @@ function normalizeSlide(slide, index) {
       zh: { title: String(slide.content?.zh?.title || title), body: String(slide.content?.zh?.body || slide.note || '') },
       en: { title: String(slide.content?.en?.title || ''), body: String(slide.content?.en?.body || '') }
     },
-    layers: Array.isArray(slide.layers) ? slide.layers.map(layer => ({ ...layer, text: String(layer.text || layer.textZh || ''), textEn: String(layer.textEn || '') })) : [],
+    nativeVersion: 1,
+    layers: hydratedLayers.map(layer => ({
+      ...layer,
+      type: ['text', 'shape', 'image'].includes(layer.type) ? layer.type : 'text',
+      text: String(layer.text || layer.textZh || ''),
+      textEn: String(layer.textEn || ''),
+      src: String(layer.src || '')
+    })),
     custom: Boolean(slide.custom)
   };
 }
@@ -108,20 +121,33 @@ function renderRail() {
 function renderLayers(slide) {
   layerHost.innerHTML = '';
   (slide.layers || []).forEach(layer => {
-    if (layer.type !== 'text') return;
     const node = document.createElement('div');
-    node.className = 'published-text-layer';
-    node.textContent = activeLanguage === 'en' ? (layer.textEn || '') : (layer.text || '');
-    if (!node.textContent) return;
+    node.className = `published-layer published-${layer.type || 'text'}-layer`;
+    const displayText = activeLanguage === 'en' ? (layer.textEn || '') : (layer.text || '');
+    if (layer.type === 'image') {
+      if (!layer.src) return;
+      const imageNode = document.createElement('img');
+      imageNode.src = layer.src;
+      imageNode.alt = displayText;
+      node.appendChild(imageNode);
+    } else {
+      node.textContent = displayText;
+      if (!displayText && layer.type === 'text') return;
+    }
     node.style.left = `${Number(layer.x) || 0}%`;
     node.style.top = `${Number(layer.y) || 0}%`;
     node.style.width = `${Number(layer.w) || 30}%`;
-    node.style.minHeight = `${Number(layer.h) || 8}%`;
+    node.style.height = `${Number(layer.h) || 8}%`;
     node.style.fontSize = `${(Number(layer.fontSize) || 36) / 19.2}cqw`;
     node.style.color = layer.color || '#13213a';
     node.style.background = layer.background || 'transparent';
     node.style.fontWeight = layer.bold ? '800' : '500';
     node.style.textAlign = layer.align || 'left';
+    node.style.justifyContent = layer.align === 'left' ? 'flex-start' : layer.align === 'right' ? 'flex-end' : 'center';
+    node.style.border = `${Number(layer.borderWidth) || 0}px solid ${layer.borderColor || 'transparent'}`;
+    node.style.borderRadius = `${Number(layer.radius) || 0}px`;
+    node.style.opacity = Number(layer.opacity) || 1;
+    node.style.transform = `rotate(${Number(layer.rotation) || 0}deg)`;
     layerHost.appendChild(node);
   });
 }
@@ -140,28 +166,15 @@ function renderStage() {
   const english = activeLanguage === 'en';
   languageZh.classList.toggle('active', !english);
   languageEn.classList.toggle('active', english);
-  if (!english && slide.src) {
-    image.src = slide.src;
-    image.alt = `${slide.title}，第 ${activeIndex() + 1} 页`;
-    image.hidden = false;
-    blank.hidden = true;
-    englishSlide.hidden = true;
-  } else if (!english) {
-    image.removeAttribute('src');
-    image.hidden = true;
-    blank.hidden = false;
-    englishSlide.hidden = true;
-    blank.querySelector('h1').textContent = slide.title || '双击输入新页面标题';
-    blank.querySelector('p').textContent = slide.note || '可输入备注，或上传新的页面图。';
-  } else {
-    image.hidden = true;
-    blank.hidden = true;
-    englishSlide.hidden = false;
-    englishTitle.textContent = slide.content.en.title || 'English version unavailable';
-    englishBody.textContent = slide.content.en.body || 'Open the online editor to generate the English page.';
-    englishNumber.textContent = `${String(activeIndex() + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
-    fitEnglishPage(slide.content.en);
-  }
+  const content = english ? slide.content.en : slide.content.zh;
+  image.hidden = true;
+  blank.hidden = true;
+  englishSlide.hidden = false;
+  nativeKicker.textContent = english ? 'ORQELA · ENGLISH VERSION' : 'ORQELA · 中文版本';
+  englishTitle.textContent = content.title || (english ? 'English version unavailable' : slide.title);
+  englishBody.textContent = content.body || (english ? 'Open the online editor to generate the English page.' : slide.note);
+  englishNumber.textContent = `${String(activeIndex() + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+  fitEnglishPage(content);
   renderLayers(slide);
   pageInput.value = activeIndex() + 1;
   pageInput.max = slides.length;
@@ -181,7 +194,7 @@ function step(amount) {
 }
 
 function addSlide() {
-  const slide = { id: `custom-${Date.now()}`, src: '', title: '新页面', note: '可输入备注，或上传页面图。', content: { zh: { title: '新页面', body: '可输入备注，或上传页面图。' }, en: { title: 'New Slide', body: 'Add notes or upload a slide image.' } }, layers: [], custom: true };
+  const slide = { id: `custom-${Date.now()}`, src: '', title: '新页面', note: '可输入备注，或上传页面图。', nativeVersion: 1, content: { zh: { title: '新页面', body: '可输入备注，或上传页面图。' }, en: { title: 'New Slide', body: 'Add notes or upload a slide image.' } }, layers: [], custom: true };
   slides.splice(activeIndex() + 1, 0, slide);
   activeId = slide.id;
   persist('草稿中已新增页面');

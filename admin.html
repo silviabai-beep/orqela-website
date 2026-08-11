@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#07142b">
   <meta name="robots" content="noindex,nofollow">
   <title>ORQELA｜在线编辑器</title>
-  <link rel="stylesheet" href="admin.css?v=3">
+  <link rel="stylesheet" href="admin.css?v=4">
 </head>
 <body>
   <section id="login-view" class="login-view">
@@ -57,7 +57,8 @@
         <span id="translation-state" class="translation-state">英文已同步</span>
         <span class="separator"></span>
         <button id="add-text-layer" class="accent-outline">＋ 添加文字</button>
-        <span class="tip">拖动文字改变位置 · 右侧调整样式</span>
+        <button id="add-shape-layer" class="accent-outline">＋ 添加图形</button>
+        <span class="tip">拖动图层移动 · 右下角缩放 · 右侧调整样式</span>
       </div>
       <div class="admin-canvas-shell">
         <div id="admin-stage" class="admin-stage">
@@ -88,8 +89,8 @@
       <label class="field">底图地址<input id="slide-src" type="text" readonly></label>
       <hr>
       <div id="layer-empty" class="empty-inspector">
-        <b>添加可编辑文字</b>
-        <p>原有 Canva 页面作为底图保留。新增的文字可以覆盖旧内容，并可随时修改。</p>
+        <b>所有内容都已拆成网页图层</b>
+        <p>点击画布里的文字、卡片或图形即可编辑；原 Canva 页面仅作为“查看原设计”的参考。</p>
       </div>
       <div id="layer-controls" hidden>
         <label class="field">中文文字<textarea id="layer-text" rows="4"></textarea></label>
@@ -104,11 +105,16 @@
         </div>
         <div class="field-grid">
           <label class="field">文字颜色<input id="layer-color" type="color"></label>
-          <label class="field">背景颜色<input id="layer-background" type="color"></label>
+          <label class="field">填充颜色<input id="layer-background" type="color"></label>
+          <label class="field">边框颜色<input id="layer-border-color" type="color"></label>
+          <label class="field">边框宽度<input id="layer-border-width" type="number" min="0" max="20" step="1"></label>
+          <label class="field">圆角<input id="layer-radius" type="number" min="0" max="999" step="1"></label>
+          <label class="field">透明度<input id="layer-opacity" type="number" min="0.05" max="1" step="0.05"></label>
+          <label class="field">旋转角度<input id="layer-rotation" type="number" min="-180" max="180" step="1"></label>
         </div>
         <label class="check-field"><input id="layer-transparent" type="checkbox"> 透明背景</label>
         <label class="check-field"><input id="layer-bold" type="checkbox"> 粗体</label>
-        <button id="delete-layer" class="danger">删除文字图层</button>
+        <button id="delete-layer" class="danger">删除当前图层</button>
       </div>
       <div class="publish-note">
         <b>发布说明</b>
@@ -119,6 +125,6 @@
 
   <input id="admin-image-picker" type="file" accept="image/png,image/jpeg,image/webp" hidden>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="admin.js?v=3"></script>
+  <script type="module" src="admin.js?v=4"></script>
 </body>
 </html>

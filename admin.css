@@ -84,8 +84,8 @@ button { cursor: pointer; }
 .admin-english-page { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 7.4% 8%; color: #fff; background: radial-gradient(circle at 85% 15%, #4426a5 0, #17274b 31%, #07142b 72%); }
 .admin-english-page::after { content: "Q"; position: absolute; right: 5%; bottom: -16%; color: #ffffff09; font-size: 42cqw; font-weight: 950; line-height: 1; }
 .english-kicker { position: relative; z-index: 1; color: #9a86ff; font-size: 1.15cqw; font-weight: 850; letter-spacing: .18em; }
-.admin-english-page h1 { position: relative; z-index: 1; width: 82%; margin: 4% 0 2.5%; font-size: 4.1cqw; line-height: 1.04; letter-spacing: -.045em; }
-.admin-english-page p { position: relative; z-index: 1; width: 76%; margin: 0; color: #c3ccdb; font-size: 1.55cqw; line-height: 1.52; white-space: pre-wrap; }
+.admin-english-page h1 { position: relative; z-index: 1; width: 84%; margin: 4% 0 2.5%; font-size: 4.1cqw; line-height: 1.04; letter-spacing: -.045em; }
+.admin-english-page p { position: relative; z-index: 1; width: 43%; max-height: 53%; overflow: hidden; margin: 0; color: #c3ccdb; font-size: 1.55cqw; line-height: 1.52; white-space: pre-wrap; }
 .admin-english-page footer { position: relative; z-index: 1; display: flex; justify-content: space-between; margin-top: auto; padding-top: 2%; border-top: 1px solid #ffffff22; color: #9da9bd; font-size: 1cqw; font-weight: 800; letter-spacing: .12em; }
 .editable-content-page h1, .editable-content-page p { cursor: text; outline: 1px dashed transparent; outline-offset: .2em; transition: outline-color .15s ease, background .15s ease; }
 .editable-content-page h1:hover, .editable-content-page p:hover { outline-color: #a993ff88; }
@@ -95,11 +95,15 @@ button { cursor: pointer; }
 .admin-english-page.dense { padding-top: 5.5%; padding-bottom: 5.5%; }
 .admin-english-page.dense h1 { font-size: 3cqw; margin: 2.5% 0 1.8%; }
 .admin-english-page.dense p { width: 82%; font-size: 1.12cqw; line-height: 1.34; }
-.admin-layer-host { position: absolute; inset: 0; pointer-events: none; }
-.editable-layer { position: absolute; display: flex; align-items: center; padding: .35em .5em; border: 1px dashed transparent; border-radius: .18em; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.16; cursor: move; pointer-events: auto; }
+.admin-layer-host { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.editable-layer { position: absolute; display: flex; align-items: center; padding: .35em .5em; white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; line-height: 1.16; cursor: move; pointer-events: auto; transform-origin: center; }
+.editable-layer img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; pointer-events: none; }
+.shape-layer { display: flex; align-items: center; }
 .editable-layer:hover { border-color: #8e73ff; }
-.editable-layer.selected { border: 2px solid var(--purple); box-shadow: 0 0 0 2px #fff8; }
+.editable-layer.selected { outline: 2px solid var(--purple); outline-offset: 1px; box-shadow: 0 0 0 3px #fff8; }
 .editable-layer.selected::after { content: "拖动"; position: absolute; right: 0; bottom: 100%; padding: 3px 6px; border-radius: 4px 4px 0 0; color: #fff; background: var(--purple); font-size: 8px; font-weight: 800; }
+.resize-handle { display: none; position: absolute; right: -7px; bottom: -7px; width: 15px; height: 15px; padding: 0; border: 2px solid #fff; border-radius: 50%; background: var(--purple); box-shadow: 0 1px 5px #0004; cursor: nwse-resize; pointer-events: auto; }
+.editable-layer.selected .resize-handle { display: block; }
 .editor-footer { display: flex; align-items: center; justify-content: space-between; padding: 0 14px; color: var(--muted); background: #fff; border-top: 1px solid var(--line); font-size: 8px; }
 
 .inspector { min-height: 0; overflow: auto; padding: 16px; background: #fff; border-left: 1px solid var(--line); }

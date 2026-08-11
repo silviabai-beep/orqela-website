@@ -7,7 +7,7 @@
   <meta name="description" content="ORQELA 投资人客户介绍 v3.6 - 可排序的网页幻灯片">
   <title>ORQELA v3.6｜演示文稿</title>
   <link rel="stylesheet" href="styles.css?v=6">
-  <link rel="stylesheet" href="editor-overrides.css?v=3">
+  <link rel="stylesheet" href="editor-overrides.css?v=4">
 </head>
 <body>
   <aside class="rail" aria-label="幻灯片导航">
@@ -45,7 +45,7 @@
       <div class="stage" id="stage">
         <img id="slide-image" alt="当前 ORQELA 幻灯片">
         <article id="english-slide" class="english-slide" hidden>
-          <span class="english-slide-kicker">ORQELA · ENGLISH VERSION</span>
+          <span id="native-slide-kicker" class="english-slide-kicker">ORQELA · 中文版本</span>
           <h1 id="english-slide-title"></h1>
           <p id="english-slide-body"></p>
           <footer><span>ORQELA</span><span id="english-slide-number"></span></footer>
@@ -62,6 +62,6 @@
     <footer><span id="status">已加载 Canva v3.6</span><span>方向键翻页 · Esc 退出演示</span></footer>
   </main>
   <input id="image-picker" type="file" accept="image/*" hidden>
-  <script src="script.js?v=8"></script>
+  <script type="module" src="script.js?v=9"></script>
 </body>
 </html>
