@@ -2,45 +2,56 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="ORQELA — the vertical AI Trade Network for the vape industry.">
-  <title>ORQELA — AI Trade Network</title>
-  <link rel="stylesheet" href="styles.css?v=2">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07142b">
+  <meta name="description" content="ORQELA 投资人客户介绍 v3.6 - 可排序的网页幻灯片">
+  <title>ORQELA v3.6｜演示文稿</title>
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
-<main>
-  <nav>
-    <a class="brand" href="#top"><span class="qmark">Q</span><b>ORQELA</b><small>AI TRADE ASSISTANT</small></a>
-    <div class="navlinks">
-      <a href="#product" data-i18n="navProduct">产品</a><a href="#model" data-i18n="navMemory">长期智能</a><a href="#flywheel" data-i18n="navData">数据网络</a><a href="#business" data-i18n="navBusiness">商业模式</a><a href="#roadmap" data-i18n="navRoadmap">路线图</a><a href="#global" data-i18n="navGlobal">全球市场</a>
+  <aside class="rail" aria-label="幻灯片导航">
+    <div class="rail-brand"><span class="qmark">Q</span><div><b>ORQELA</b><small>v3.6 · SLIDE BUILDER</small></div></div>
+    <div class="rail-heading"><span>页面</span><b id="deck-count">15</b></div>
+    <div class="slide-list" id="slide-list" aria-label="可拖拽页面列表"></div>
+    <div class="rail-actions">
+      <button id="add-slide" class="primary">＋ 新增页</button>
+      <button id="duplicate-slide">复制</button>
+      <button id="delete-slide">删除</button>
+      <button id="replace-image">替换图片</button>
     </div>
-    <div class="actions"><div class="lang"><button class="active" data-lang="zh">中</button><button data-lang="en">EN</button></div><button class="compose" data-i18n="compose">组合本次演示</button></div>
-  </nav>
-  <aside class="composer" hidden>
-    <strong data-i18n="composeTitle">选择本次演示模块</strong>
-    <label><input type="checkbox" value="product" checked><i>01</i><span data-i18n="moduleProduct">三个决策</span></label>
-    <label><input type="checkbox" value="model" checked><i>02</i><span data-i18n="moduleMemory">长期智能</span></label>
-    <label><input type="checkbox" value="flywheel" checked><i>03</i><span data-i18n="moduleData">数据与防火墙</span></label>
-    <label><input type="checkbox" value="business" checked><i>04</i><span data-i18n="moduleBusiness">商业模式</span></label>
-    <label><input type="checkbox" value="roadmap" checked><i>05</i><span data-i18n="moduleRoadmap">路线图</span></label>
-    <label><input type="checkbox" value="global" checked><i>06</i><span data-i18n="moduleGlobal">全球市场</span></label>
-    <button class="apply" data-i18n="apply">应用组合</button>
+    <p class="rail-help">拖动缩略图调整顺序。所有更改仅保存在当前浏览器。</p>
   </aside>
-  <header id="top">
-    <div class="audience"><span data-i18n="audienceLabel">为谁展示</span><button class="active" data-audience="all" data-i18n="audienceAll">完整故事</button><button data-audience="investor" data-i18n="audienceInvestor">投资人</button><button data-audience="distributor" data-i18n="audienceDistributor">分销商</button><button data-audience="retailer" data-i18n="audienceRetailer">零售商</button><button data-audience="supplier" data-i18n="audienceSupplier">供应商</button></div>
-    <div class="hero"><div><p class="eyebrow" data-i18n="eyebrow">电子烟垂直 AI TRADE NETWORK</p><h1><span data-i18n="hero1">从真实需求</span><span data-i18n="hero2">到下一款产品。</span></h1><p class="lead" data-i18n="lead">Orqela 每天监控销售、库存、订单与市场信号，帮助电子烟行业决定 SELL / BUY / BUILD。</p><a href="#product"><span data-i18n="explore">探索 ORQELA</span><b>↘</b></a></div><div class="heroArt"><div class="core"><span>AI</span><small>TRADE<br>ASSISTANT</small></div><em class="node n1">POS / ERP</em><em class="node n2">CRM / EMAIL</em><em class="node n3">MARKET PACK</em><em class="node n4">SUPPLIER FIREWALL</em><div class="ring r1"></div><div class="ring r2"></div></div></div>
-    <p class="heroIntro" data-i18n="heroIntro">一个入口、三个决策。连接现有 POS、ERP、CRM、Excel 与 Email，10–15 分钟生成第一份 Daily Plan，并把真实终端需求反向传导到供应链。</p>
-    <div class="heroFoot"><span>SELL</span><span>BUY</span><span>BUILD</span><small>US-first · Global-by-Design · AI-first</small></div>
-  </header>
-  <section id="product" data-audiences="all investor distributor retailer supplier"><div class="sectionHead"><span>01</span><small>ONE ASSISTANT · THREE DECISIONS</small></div><div class="sectionIntro"><h2 data-i18n="productTitle">每天只回答三个关键问题</h2><p data-i18n="productCopy">Today’s Plan 汇总销售异常、补货窗口、客户流失风险、采购动作和新品机会；底层工具只是 Assistant Tools。</p></div><div class="triad"><article><b>SELL</b><h3 data-i18n="sellTitle">卖什么，卖给谁？</h3><p data-i18n="sellCopy">补货 · 流失预警 · 营销动作</p></article><article><b>BUY</b><h3 data-i18n="buyTitle">采购什么，采购多少？</h3><p data-i18n="buyCopy">库存 · 报价 · 交期 · 资金风险</p></article><article><b>BUILD</b><h3 data-i18n="buildTitle">下一款产品需要什么？</h3><p data-i18n="buildCopy">规格 · 容量 · 价格带 · 试销</p></article></div></section>
-  <section id="model" data-audiences="all investor distributor retailer"><div class="sectionHead"><span>02</span><small>BUSINESS MEMORY · OUTCOME LEARNING</small></div><div class="sectionIntro"><h2 data-i18n="memoryTitle">AI 从会建议，变成会长期经营</h2><p data-i18n="memoryCopy">Business Memory 记住补货周期、价格偏好和团队习惯；Outcome Learning 从回复、订单、GMV、毛利与复购中持续校正。</p></div><div class="flow"><div><i>01</i><b>Observe</b><span>→</span></div><div><i>02</i><b>Remember</b><span>→</span></div><div><i>03</i><b>Decide</b><span>→</span></div><div><i>04</i><b>Act</b><span>→</span></div><div><i>05</i><b>Measure</b><span>→</span></div><div><i>06</i><b>Learn</b></div></div></section>
-  <section id="flywheel" data-audiences="all investor distributor supplier"><div class="sectionHead"><span>03</span><small>DATA TRUST · SUPPLIER FIREWALL</small></div><div class="sectionIntro"><h2 data-i18n="dataTitle">让需求穿过渠道，但不穿透商业边界</h2><p data-i18n="dataCopy">原始账户数据私有；匿名聚合智能服务网络。供应商身份、底价与履约数据对 Distributor 隔离，平台负责匿名 RFQ、比价与协同。</p></div><div class="risk"><article><span data-i18n="notOwn">ORQELA 不承担</span><p data-i18n="notOwnCopy">大规模库存垫资<br>非必要 Importer of Record<br>无资质进出口与销售责任<br>成品跨境扣货风险</p></article><article><span data-i18n="own">ORQELA 真正承担</span><p data-i18n="ownCopy">Demand Intelligence<br>Supplier Orchestration<br>Compliance Workflow<br>Transaction Audit Trail</p></article></div></section>
-  <section id="business" data-audiences="all investor distributor supplier"><div class="sectionHead"><span>04</span><small>FRONT-END FREQUENCY · PROCUREMENT MONETIZATION</small></div><div class="sectionIntro"><h2 data-i18n="businessTitle">前端高频，后端采购变现</h2><p data-i18n="businessCopy">Retailer 基础免费；Distributor 分层订阅 + Usage；D↔R 交易 0% 佣金；采购环节通过 Commission、Platform Fee 或 Margin 变现。</p></div><div class="revenue"><article><i>01</i><b>Retailer</b><span data-i18n="retailerModel">基础免费 / High usage</span></article><article><i>02</i><b>Distributor</b><span>Subscription + Usage</span></article><article><i>03</i><b>Supplier</b><span>Service / Coordination</span></article><article><i>04</i><b>Procurement</b><span>Fee · Commission · Spread</span></article></div></section>
-  <section id="roadmap" data-audiences="all investor"><div class="sectionHead"><span>05</span><small>DAILY ASSISTANT → NETWORK → PROCUREMENT</small></div><div class="sectionIntro"><h2 data-i18n="roadmapTitle">先证明 Daily Assistant，再放大网络与采购</h2><p data-i18n="roadmapCopy">M1–4 建立 Connect、Memory 与 Outcome；M5–12 验证付费、留存和 SELL / BUY；M13–18 上线 RFQ、Capital Risk 与 Product Experiment。</p></div><div class="roadmap"><article><b>0–3M</b><span>MVP &amp; Seed Data</span></article><article><b>4–6M</b><span>Paid Validation</span></article><article><b>7–12M</b><span>PMF / Break-even</span></article><article><b>13–18M</b><span>Supply Pilot</span></article></div></section>
-  <section id="global" data-audiences="all investor distributor supplier"><div class="sectionHead"><span>06</span><small>US-FIRST · GLOBAL-BY-DESIGN</small></div><div class="sectionIntro"><h2 data-i18n="globalTitle">美国首发，通过 Market Pack 全球复制</h2><p data-i18n="globalCopy">同一 Core Engine 配置语言、币种、合规规则、数据源、触达方式与供应链责任。印尼是供应链与组装能力的一部分，而不是网站的全部定位。</p></div><div class="markets"><article><b>US</b><span>Launch market</span></article><article><b>EU / UK</b><span>Regulatory pack</span></article><article><b>Indonesia / UAE</b><span>Assembly &amp; trade</span></article><article><b>China</b><span>Supplier pack</span></article></div></section>
-  <div class="closing"><span class="qmark big">Q</span><p>ORQELA</p><h2 data-i18n="closingTitle">连接需求、决策与合规供应。</h2><span data-i18n="closingCopy">一个可学习、可复制、可收费的全球化 AI Trade Network。</span><a href="mailto:hello@orqela.com" data-i18n="contact">开启合作对话 ↗</a></div>
-  <footer><b>ORQELA</b><span>Know what the market wants next.</span><small>© 2026 ORQELA · Confidential discussion material</small></footer>
-</main>
-<script src="script.js?v=3"></script>
+
+  <main class="workspace">
+    <header class="topbar">
+      <div class="doc-title"><b>ORQELA 投资人客户介绍</b><span>Canva 可编辑版 · v3.6</span></div>
+      <div class="toolbar">
+        <button id="prev-slide" aria-label="上一页">←</button>
+        <label>页码 <input id="page-number" type="number" min="1" value="1" aria-label="当前页码"></label>
+        <span id="page-total">/ 15</span>
+        <button id="next-slide" aria-label="下一页">→</button>
+        <button id="save-deck">保存</button>
+        <button id="reset-deck">恢复 15 页</button>
+        <a class="canva" href="https://www.canva.com/design/DAHR8BHX_j4/PBM6m6QJqnxjpvj5RPpnGg/edit" target="_blank" rel="noopener">在 Canva 编辑 ↗</a>
+        <button id="present-deck" class="present">演示</button>
+      </div>
+    </header>
+
+    <section class="canvas-shell" aria-live="polite">
+      <button class="stage-nav prev" id="stage-prev" aria-label="上一页">‹</button>
+      <div class="stage" id="stage">
+        <img id="slide-image" alt="当前 ORQELA 幻灯片">
+        <div id="blank-slide" class="blank-slide" hidden>
+          <span>ORQELA</span>
+          <h1 contenteditable="true" spellcheck="false">双击输入新页面标题</h1>
+          <p contenteditable="true" spellcheck="false">可在此输入备注，或使用“替换图片”上传新的页面图。</p>
+        </div>
+      </div>
+      <button class="stage-nav next" id="stage-next" aria-label="下一页">›</button>
+    </section>
+    <footer><span id="status">已加载 Canva v3.6</span><span>方向键翻页 · Esc 退出演示</span></footer>
+  </main>
+  <input id="image-picker" type="file" accept="image/*" hidden>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
