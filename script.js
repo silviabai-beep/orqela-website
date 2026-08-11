@@ -12,6 +12,12 @@ const list = document.querySelector('#slide-list');
 const image = document.querySelector('#slide-image');
 const layerHost = document.querySelector('#slide-layers');
 const blank = document.querySelector('#blank-slide');
+const englishSlide = document.querySelector('#english-slide');
+const englishTitle = document.querySelector('#english-slide-title');
+const englishBody = document.querySelector('#english-slide-body');
+const englishNumber = document.querySelector('#english-slide-number');
+const languageZh = document.querySelector('#public-language-zh');
+const languageEn = document.querySelector('#public-language-en');
 const pageInput = document.querySelector('#page-number');
 const pageTotal = document.querySelector('#page-total');
 const status = document.querySelector('#status');
@@ -21,14 +27,20 @@ let originalSlides = structuredClone(fallbackSlides);
 let slides = [];
 let activeId = null;
 let draggedId = null;
+let activeLanguage = 'zh';
 
 function normalizeSlide(slide, index) {
+  const title = String(slide.title || `第 ${index + 1} 页`);
   return {
     id: String(slide.id || `slide-${index + 1}`),
     src: String(slide.src || ''),
-    title: String(slide.title || `第 ${index + 1} 页`),
+    title,
     note: String(slide.note || ''),
-    layers: Array.isArray(slide.layers) ? slide.layers : [],
+    content: {
+      zh: { title: String(slide.content?.zh?.title || title), body: String(slide.content?.zh?.body || slide.note || '') },
+      en: { title: String(slide.content?.en?.title || ''), body: String(slide.content?.en?.body || '') }
+    },
+    layers: Array.isArray(slide.layers) ? slide.layers.map(layer => ({ ...layer, text: String(layer.text || layer.textZh || ''), textEn: String(layer.textEn || '') })) : [],
     custom: Boolean(slide.custom)
   };
 }
@@ -72,7 +84,8 @@ function renderRail() {
     const preview = slide.src
       ? `<img class="thumb-preview" src="${escapeHtml(slide.src)}" alt="">`
       : '<span class="thumb-preview thumb-blank">＋</span>';
-    button.innerHTML = `<span class="drag-handle">⋮⋮</span>${preview}<span class="thumb-copy"><b>${String(index + 1).padStart(2, '0')} · ${escapeHtml(slide.title)}</b><small>拖拽调整草稿顺序</small></span>`;
+    const railTitle = activeLanguage === 'en' ? (slide.content.en.title || slide.title) : (slide.content.zh.title || slide.title);
+    button.innerHTML = `<span class="drag-handle">⋮⋮</span>${preview}<span class="thumb-copy"><b>${String(index + 1).padStart(2, '0')} · ${escapeHtml(railTitle)}</b><small>${activeLanguage === 'en' ? 'Drag to reorder draft' : '拖拽调整草稿顺序'}</small></span>`;
     button.addEventListener('click', () => selectSlide(slide.id));
     button.addEventListener('dragstart', () => { draggedId = slide.id; button.classList.add('dragging'); });
     button.addEventListener('dragend', () => { draggedId = null; button.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); });
@@ -98,7 +111,8 @@ function renderLayers(slide) {
     if (layer.type !== 'text') return;
     const node = document.createElement('div');
     node.className = 'published-text-layer';
-    node.textContent = layer.text || '';
+    node.textContent = activeLanguage === 'en' ? (layer.textEn || '') : (layer.text || '');
+    if (!node.textContent) return;
     node.style.left = `${Number(layer.x) || 0}%`;
     node.style.top = `${Number(layer.y) || 0}%`;
     node.style.width = `${Number(layer.w) || 30}%`;
@@ -115,17 +129,29 @@ function renderLayers(slide) {
 function renderStage() {
   const slide = activeSlide();
   if (!slide) return;
-  if (slide.src) {
+  const english = activeLanguage === 'en';
+  languageZh.classList.toggle('active', !english);
+  languageEn.classList.toggle('active', english);
+  if (!english && slide.src) {
     image.src = slide.src;
     image.alt = `${slide.title}，第 ${activeIndex() + 1} 页`;
     image.hidden = false;
     blank.hidden = true;
-  } else {
+    englishSlide.hidden = true;
+  } else if (!english) {
     image.removeAttribute('src');
     image.hidden = true;
     blank.hidden = false;
+    englishSlide.hidden = true;
     blank.querySelector('h1').textContent = slide.title || '双击输入新页面标题';
     blank.querySelector('p').textContent = slide.note || '可输入备注，或上传新的页面图。';
+  } else {
+    image.hidden = true;
+    blank.hidden = true;
+    englishSlide.hidden = false;
+    englishTitle.textContent = slide.content.en.title || 'English version unavailable';
+    englishBody.textContent = slide.content.en.body || 'Open the online editor to generate the English page.';
+    englishNumber.textContent = `${String(activeIndex() + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
   }
   renderLayers(slide);
   pageInput.value = activeIndex() + 1;
@@ -146,7 +172,7 @@ function step(amount) {
 }
 
 function addSlide() {
-  const slide = { id: `custom-${Date.now()}`, src: '', title: '新页面', note: '可输入备注，或上传页面图。', layers: [], custom: true };
+  const slide = { id: `custom-${Date.now()}`, src: '', title: '新页面', note: '可输入备注，或上传页面图。', content: { zh: { title: '新页面', body: '可输入备注，或上传页面图。' }, en: { title: 'New Slide', body: 'Add notes or upload a slide image.' } }, layers: [], custom: true };
   slides.splice(activeIndex() + 1, 0, slide);
   activeId = slide.id;
   persist('草稿中已新增页面');
@@ -226,11 +252,15 @@ pageInput.addEventListener('change', () => moveActive(pageInput.value));
 document.querySelector('#save-deck').addEventListener('click', () => persist('草稿已保存到当前浏览器'));
 document.querySelector('#reset-deck').addEventListener('click', resetDeck);
 document.querySelector('#present-deck').addEventListener('click', togglePresentation);
+languageZh.addEventListener('click', () => { activeLanguage = 'zh'; render(); });
+languageEn.addEventListener('click', () => { activeLanguage = 'en'; render(); });
 blank.addEventListener('input', () => {
   const slide = activeSlide();
   if (slide?.custom) {
     slide.title = blank.querySelector('h1').textContent.trim() || '新页面';
     slide.note = blank.querySelector('p').textContent.trim();
+    slide.content.zh.title = slide.title;
+    slide.content.zh.body = slide.note;
     renderRail();
   }
 });

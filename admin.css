@@ -68,11 +68,25 @@ button { cursor: pointer; }
 .editing-toolbar input { width: 48px; padding: 6px; border: 1px solid var(--line); border-radius: 7px; text-align: center; font-weight: 800; }
 .editing-toolbar .separator { width: 1px; height: 20px; background: var(--line); }
 .editing-toolbar .accent-outline { color: var(--purple); border-color: #b7a7ff; background: var(--purple-soft); }
+.language-tabs { display: flex; padding: 2px; border-radius: 8px; background: #eef1f6; }
+.editing-toolbar .language-tabs button { border: 0; padding: 6px 9px; background: transparent; }
+.editing-toolbar .language-tabs button.active { color: #fff; background: var(--navy); box-shadow: 0 3px 8px #07142b2d; }
+.translation-state { color: #76839a; font-size: 8px; font-weight: 800; white-space: nowrap; }
+.translation-state[data-tone="loading"] { color: var(--purple); }
+.translation-state[data-tone="success"] { color: #078b70; }
+.translation-state[data-tone="error"] { color: var(--danger); }
+.translation-state[data-tone="warning"] { color: #a66b00; }
 .editing-toolbar .tip { margin-left: auto; color: #8692a7; font-size: 8px; }
 .admin-canvas-shell { min-height: 0; display: grid; place-items: center; overflow: auto; padding: 32px; background: radial-gradient(circle at 50% 35%, #f7f8fb, #dfe5ed); }
 .admin-stage { position: relative; width: min(100%, 1180px); aspect-ratio: 16/9; overflow: hidden; border-radius: 5px; background: #fff; box-shadow: 0 24px 70px #17233b2d; container-type: inline-size; user-select: none; }
 .admin-stage > img { display: block; width: 100%; height: 100%; object-fit: contain; background: #fff; pointer-events: none; }
 .admin-blank { position: absolute; inset: 0; display: grid; place-items: center; color: #9ca9be; background: #f7f8fb; font-size: 4cqw; font-weight: 900; }
+.admin-english-page { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 7.4% 8%; color: #fff; background: radial-gradient(circle at 85% 15%, #4426a5 0, #17274b 31%, #07142b 72%); }
+.admin-english-page::after { content: "Q"; position: absolute; right: 5%; bottom: -16%; color: #ffffff09; font-size: 42cqw; font-weight: 950; line-height: 1; }
+.english-kicker { position: relative; z-index: 1; color: #9a86ff; font-size: 1.15cqw; font-weight: 850; letter-spacing: .18em; }
+.admin-english-page h1 { position: relative; z-index: 1; width: 82%; margin: 4% 0 2.5%; font-size: 4.1cqw; line-height: 1.04; letter-spacing: -.045em; }
+.admin-english-page p { position: relative; z-index: 1; width: 76%; margin: 0; color: #c3ccdb; font-size: 1.55cqw; line-height: 1.52; white-space: pre-wrap; }
+.admin-english-page footer { position: relative; z-index: 1; display: flex; justify-content: space-between; margin-top: auto; padding-top: 2%; border-top: 1px solid #ffffff22; color: #9da9bd; font-size: 1cqw; font-weight: 800; letter-spacing: .12em; }
 .admin-layer-host { position: absolute; inset: 0; }
 .editable-layer { position: absolute; display: flex; align-items: center; padding: .35em .5em; border: 1px dashed transparent; border-radius: .18em; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.16; cursor: move; }
 .editable-layer:hover { border-color: #8e73ff; }
@@ -84,6 +98,10 @@ button { cursor: pointer; }
 .inspector-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
 .inspector-heading b { font-size: 13px; }
 .inspector-heading span { color: var(--muted); font-size: 8px; }
+.bilingual-fields { margin: 0 -4px 14px; padding: 11px; border: 1px solid #d9d2ff; border-radius: 12px; background: #faf9ff; }
+.english-field-heading { display: flex; align-items: center; justify-content: space-between; margin: 5px 0 10px; color: var(--navy); font-size: 9px; }
+.english-field-heading button { padding: 5px 8px; border: 1px solid #bcaeff; border-radius: 7px; color: var(--purple); background: #fff; font-size: 8px; font-weight: 800; }
+.english-field-heading button:disabled { opacity: .55; cursor: wait; }
 .field { display: grid; gap: 6px; margin-bottom: 12px; color: #647189; font-size: 9px; font-weight: 700; }
 .field input, .field textarea, .field select { width: 100%; padding: 9px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: #fff; font-size: 10px; outline: none; }
 .field input:focus, .field textarea:focus, .field select:focus { border-color: #9c86ff; box-shadow: 0 0 0 3px #6d36ff14; }

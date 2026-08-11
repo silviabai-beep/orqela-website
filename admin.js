@@ -5,6 +5,8 @@ const state = {
   selectedLayerId: null,
   draggedSlideId: null,
   pendingFiles: new Map(),
+  activeLanguage: 'zh',
+  translationRequest: 0,
   dirty: false,
   publishing: false
 };
@@ -21,16 +23,29 @@ const ui = {
   pageCount: document.querySelector('#page-count'),
   image: document.querySelector('#admin-slide-image'),
   blank: document.querySelector('#admin-blank'),
+  englishPage: document.querySelector('#admin-english-page'),
+  englishPreviewTitle: document.querySelector('#english-preview-title'),
+  englishPreviewBody: document.querySelector('#english-preview-body'),
+  englishPreviewNumber: document.querySelector('#english-preview-number'),
   layerHost: document.querySelector('#admin-layer-host'),
   stage: document.querySelector('#admin-stage'),
   pageNumber: document.querySelector('#admin-page-number'),
   pageTotal: document.querySelector('#admin-page-total'),
   slideTitle: document.querySelector('#slide-title'),
+  contentTitleZh: document.querySelector('#content-title-zh'),
+  contentBodyZh: document.querySelector('#content-body-zh'),
+  contentTitleEn: document.querySelector('#content-title-en'),
+  contentBodyEn: document.querySelector('#content-body-en'),
+  translateNow: document.querySelector('#translate-now'),
+  translationState: document.querySelector('#translation-state'),
+  languageZh: document.querySelector('#language-zh'),
+  languageEn: document.querySelector('#language-en'),
   slideSrc: document.querySelector('#slide-src'),
   selectionLabel: document.querySelector('#selection-label'),
   layerEmpty: document.querySelector('#layer-empty'),
   layerControls: document.querySelector('#layer-controls'),
   layerText: document.querySelector('#layer-text'),
+  layerTextEn: document.querySelector('#layer-text-en'),
   layerX: document.querySelector('#layer-x'),
   layerY: document.querySelector('#layer-y'),
   layerW: document.querySelector('#layer-w'),
@@ -67,20 +82,33 @@ function markDirty(message = '有未发布的更改') {
 
 function normalizeDeck(deck) {
   const normalized = {
-    version: 1,
+    version: 2,
     title: String(deck?.title || 'ORQELA 投资人客户介绍 v3.6'),
     updatedAt: String(deck?.updatedAt || new Date().toISOString()),
     slides: Array.isArray(deck?.slides) ? deck.slides : []
   };
-  normalized.slides = normalized.slides.map((slide, index) => ({
+  normalized.slides = normalized.slides.map((slide, index) => {
+    const title = String(slide.title || `第 ${index + 1} 页`);
+    return {
     id: String(slide.id || `slide-${index + 1}`),
     src: String(slide.src || ''),
-    title: String(slide.title || `第 ${index + 1} 页`),
+    title,
     note: String(slide.note || ''),
+    content: {
+      zh: {
+        title: String(slide.content?.zh?.title || title),
+        body: String(slide.content?.zh?.body || slide.note || '')
+      },
+      en: {
+        title: String(slide.content?.en?.title || ''),
+        body: String(slide.content?.en?.body || '')
+      }
+    },
     layers: Array.isArray(slide.layers) ? slide.layers.map(layer => ({
       id: String(layer.id || `text-${Date.now()}-${index}`),
       type: 'text',
-      text: String(layer.text || ''),
+      text: String(layer.text || layer.textZh || ''),
+      textEn: String(layer.textEn || ''),
       x: clamp(layer.x ?? 10, 0, 98),
       y: clamp(layer.y ?? 10, 0, 98),
       w: clamp(layer.w ?? 32, 2, 100),
@@ -91,7 +119,7 @@ function normalizeDeck(deck) {
       bold: Boolean(layer.bold),
       align: ['left', 'center', 'right'].includes(layer.align) ? layer.align : 'left'
     })) : []
-  }));
+  }});
   return normalized;
 }
 
@@ -157,7 +185,8 @@ function renderRail() {
     button.dataset.id = slide.id;
     const src = slide.previewSrc || slide.src;
     const preview = src ? `<img src="${escapeHtml(src)}" alt="">` : '<span class="blank-thumb">＋</span>';
-    button.innerHTML = `<span class="handle">⋮⋮</span>${preview}<span><b>${String(index + 1).padStart(2, '0')} · ${escapeHtml(slide.title)}</b><small>${slide.layers.length} 个文字图层</small></span>`;
+    const bilingual = slide.content?.en?.title ? '中 / EN' : '英文待生成';
+    button.innerHTML = `<span class="handle">⋮⋮</span>${preview}<span><b>${String(index + 1).padStart(2, '0')} · ${escapeHtml(slide.title)}</b><small>${bilingual} · ${slide.layers.length} 个文字图层</small></span>`;
     button.addEventListener('click', () => selectSlide(slide.id));
     button.addEventListener('dragstart', () => { state.draggedSlideId = slide.id; });
     button.addEventListener('dragover', event => { event.preventDefault(); if (state.draggedSlideId !== slide.id) button.classList.add('drag-over'); });
@@ -193,14 +222,26 @@ function renderStage() {
   const slide = activeSlide();
   if (!slide) return;
   const src = slide.previewSrc || slide.src;
-  if (src) {
+  const english = state.activeLanguage === 'en';
+  ui.languageZh.classList.toggle('active', !english);
+  ui.languageEn.classList.toggle('active', english);
+  if (!english && src) {
     ui.image.src = src;
     ui.image.hidden = false;
     ui.blank.hidden = true;
-  } else {
+    ui.englishPage.hidden = true;
+  } else if (!english) {
     ui.image.removeAttribute('src');
     ui.image.hidden = true;
     ui.blank.hidden = false;
+    ui.englishPage.hidden = true;
+  } else {
+    ui.image.hidden = true;
+    ui.blank.hidden = true;
+    ui.englishPage.hidden = false;
+    ui.englishPreviewTitle.textContent = slide.content.en.title || 'English title will appear here';
+    ui.englishPreviewBody.textContent = slide.content.en.body || 'Edit the Chinese content to generate this English page automatically.';
+    ui.englishPreviewNumber.textContent = `${String(activeIndex() + 1).padStart(2, '0')} / ${String(slides().length).padStart(2, '0')}`;
   }
   ui.image.alt = `${slide.title}，第 ${activeIndex() + 1} 页`;
   ui.layerHost.innerHTML = '';
@@ -208,7 +249,8 @@ function renderStage() {
     const node = document.createElement('div');
     node.className = `editable-layer${layer.id === state.selectedLayerId ? ' selected' : ''}`;
     node.dataset.id = layer.id;
-    node.textContent = layer.text;
+    node.textContent = english ? (layer.textEn || '') : layer.text;
+    if (english && !node.textContent) return;
     applyLayerStyle(node, layer);
     node.addEventListener('pointerdown', event => beginLayerDrag(event, layer.id));
     node.addEventListener('click', event => { event.stopPropagation(); selectLayer(layer.id); });
@@ -223,6 +265,10 @@ function renderInspector() {
   const slide = activeSlide();
   if (!slide) return;
   ui.slideTitle.value = slide.title;
+  ui.contentTitleZh.value = slide.content.zh.title;
+  ui.contentBodyZh.value = slide.content.zh.body;
+  ui.contentTitleEn.value = slide.content.en.title;
+  ui.contentBodyEn.value = slide.content.en.body;
   ui.slideSrc.value = slide.src || '无底图';
   const layer = selectedLayer();
   ui.layerEmpty.hidden = Boolean(layer);
@@ -230,6 +276,7 @@ function renderInspector() {
   ui.selectionLabel.textContent = layer ? '已选择文字' : '未选择文字';
   if (!layer) return;
   ui.layerText.value = layer.text;
+  ui.layerTextEn.value = layer.textEn;
   ui.layerX.value = layer.x;
   ui.layerY.value = layer.y;
   ui.layerW.value = layer.w;
@@ -246,8 +293,11 @@ function render() { renderRail(); renderStage(); renderInspector(); }
 
 function selectSlide(id) {
   if (!slides().some(slide => slide.id === id)) return;
+  clearTimeout(scheduleTranslation.timer);
+  state.translationRequest += 1;
   state.activeId = id;
   state.selectedLayerId = null;
+  setTranslationState(activeSlide()?.content?.en?.title ? '英文已同步' : '英文待生成', activeSlide()?.content?.en?.title ? 'success' : 'warning');
   render();
   ui.list.querySelector(`[data-id="${CSS.escape(id)}"]`)?.scrollIntoView({ block: 'nearest' });
 }
@@ -274,7 +324,7 @@ function movePage(position) {
 }
 
 function addPage() {
-  const slide = { id: `slide-${Date.now()}`, src: '', title: '新页面', note: '', layers: [] };
+  const slide = { id: `slide-${Date.now()}`, src: '', title: '新页面', note: '', content: { zh: { title: '新页面', body: '' }, en: { title: 'New Slide', body: '' } }, layers: [] };
   slides().splice(activeIndex() + 1, 0, slide);
   state.activeId = slide.id;
   state.selectedLayerId = null;
@@ -313,6 +363,7 @@ function addTextLayer() {
     id: `text-${Date.now()}`,
     type: 'text',
     text: '双击右侧输入文字',
+    textEn: 'Enter English text',
     x: 10,
     y: 10,
     w: 36,
@@ -402,6 +453,7 @@ function updateLayerFromControls() {
   const layer = selectedLayer();
   if (!layer) return;
   layer.text = ui.layerText.value;
+  layer.textEn = ui.layerTextEn.value;
   layer.x = clamp(ui.layerX.value, 0, 98);
   layer.y = clamp(ui.layerY.value, 0, 98);
   layer.w = clamp(ui.layerW.value, 2, 100);
@@ -415,9 +467,83 @@ function updateLayerFromControls() {
   renderStage();
 }
 
+function setTranslationState(message, tone = 'normal') {
+  ui.translationState.textContent = message;
+  ui.translationState.dataset.tone = tone;
+}
+
+async function translateActiveSlide() {
+  const slide = activeSlide();
+  if (!slide) return;
+  if (isLocalDemo) {
+    setTranslationState('部署到 Vercel 后可自动翻译', 'warning');
+    return;
+  }
+  const requestId = ++state.translationRequest;
+  setTranslationState('正在生成英文…', 'loading');
+  ui.translateNow.disabled = true;
+  try {
+    const payload = await api('/api/translate', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: slide.content.zh.title,
+        body: slide.content.zh.body,
+        layers: slide.layers.map(layer => ({ id: layer.id, text: layer.text }))
+      })
+    });
+    if (requestId !== state.translationRequest || slide.id !== activeSlide()?.id) return;
+    slide.content.en.title = String(payload.translation?.title || '');
+    slide.content.en.body = String(payload.translation?.body || '');
+    const translatedLayers = new Map((payload.translation?.layers || []).map(layer => [layer.id, layer.text]));
+    slide.layers.forEach(layer => { if (translatedLayers.has(layer.id)) layer.textEn = String(translatedLayers.get(layer.id)); });
+    markDirty('英文已自动生成，尚未发布');
+    setTranslationState('英文已同步', 'success');
+    render();
+  } catch (error) {
+    if (requestId !== state.translationRequest) return;
+    setTranslationState('英文生成失败', 'error');
+    showToast(error.message || '英文生成失败', 'error');
+  } finally {
+    if (requestId === state.translationRequest) ui.translateNow.disabled = false;
+  }
+}
+
+function scheduleTranslation() {
+  clearTimeout(scheduleTranslation.timer);
+  setTranslationState('等待自动生成…', 'loading');
+  scheduleTranslation.timer = setTimeout(translateActiveSlide, 1000);
+}
+
+function updateChineseContent() {
+  const slide = activeSlide();
+  if (!slide) return;
+  slide.content.zh.title = ui.contentTitleZh.value;
+  slide.content.zh.body = ui.contentBodyZh.value;
+  markDirty('中文已修改，正在准备英文版本…');
+  renderStage();
+  scheduleTranslation();
+}
+
+function updateEnglishContent() {
+  const slide = activeSlide();
+  if (!slide) return;
+  slide.content.en.title = ui.contentTitleEn.value;
+  slide.content.en.body = ui.contentBodyEn.value;
+  markDirty('英文已手动修改，尚未发布');
+  setTranslationState('英文已手动调整', 'success');
+  renderStage();
+}
+
+function setLanguage(language) {
+  state.activeLanguage = language;
+  state.selectedLayerId = null;
+  renderStage();
+  renderInspector();
+}
+
 function serializableDeck() {
   return {
-    version: 1,
+    version: 2,
     title: state.deck.title,
     updatedAt: new Date().toISOString(),
     slides: slides().map(slide => {
@@ -456,6 +582,13 @@ async function publish() {
 
 ui.stage.addEventListener('click', () => { state.selectedLayerId = null; renderStage(); renderInspector(); });
 ui.slideTitle.addEventListener('input', () => { activeSlide().title = ui.slideTitle.value; markDirty(); renderRail(); });
+ui.contentTitleZh.addEventListener('input', updateChineseContent);
+ui.contentBodyZh.addEventListener('input', updateChineseContent);
+ui.contentTitleEn.addEventListener('input', updateEnglishContent);
+ui.contentBodyEn.addEventListener('input', updateEnglishContent);
+ui.translateNow.addEventListener('click', translateActiveSlide);
+ui.languageZh.addEventListener('click', () => setLanguage('zh'));
+ui.languageEn.addEventListener('click', () => setLanguage('en'));
 ui.pageNumber.addEventListener('change', () => movePage(ui.pageNumber.value));
 document.querySelector('#previous-page').addEventListener('click', () => stepPage(-1));
 document.querySelector('#next-page').addEventListener('click', () => stepPage(1));
@@ -468,8 +601,9 @@ document.querySelector('#add-text-layer').addEventListener('click', addTextLayer
 document.querySelector('#delete-layer').addEventListener('click', deleteLayer);
 ui.publish.addEventListener('click', publish);
 ui.logout.addEventListener('click', async () => { await fetch('/api/auth/logout', { method: 'POST' }); location.reload(); });
-[ui.layerText, ui.layerX, ui.layerY, ui.layerW, ui.layerH, ui.layerFontSize, ui.layerAlign, ui.layerColor, ui.layerBackground, ui.layerTransparent, ui.layerBold]
+[ui.layerText, ui.layerTextEn, ui.layerX, ui.layerY, ui.layerW, ui.layerH, ui.layerFontSize, ui.layerAlign, ui.layerColor, ui.layerBackground, ui.layerTransparent, ui.layerBold]
   .forEach(control => control.addEventListener('input', updateLayerFromControls));
+ui.layerText.addEventListener('input', scheduleTranslation);
 window.addEventListener('beforeunload', event => { if (state.dirty) { event.preventDefault(); event.returnValue = ''; } });
 
 bootstrap();

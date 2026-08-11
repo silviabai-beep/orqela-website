@@ -4,6 +4,9 @@ function validateDeck(deck) {
   if (!deck || !Array.isArray(deck.slides) || deck.slides.length < 1 || deck.slides.length > 100) throw new Error('页面数据无效');
   for (const slide of deck.slides) {
     if (!slide.id || !Array.isArray(slide.layers)) throw new Error('页面结构无效');
+    if (!slide.content?.zh || !slide.content?.en) throw new Error('每一页都必须包含中英文版本');
+    if (String(slide.content.zh.title || '').length > 500 || String(slide.content.en.title || '').length > 500) throw new Error('页面标题过长');
+    if (String(slide.content.zh.body || '').length > 8000 || String(slide.content.en.body || '').length > 8000) throw new Error('页面正文过长');
     if (slide.layers.length > 80) throw new Error('单页文字图层过多');
   }
 }

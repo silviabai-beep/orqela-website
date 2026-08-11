@@ -30,3 +30,90 @@
   color: #fff;
   border-color: #6b35ff;
 }
+
+.public-language-tabs {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 8px;
+  background: #e9edf4;
+}
+
+.toolbar .public-language-tabs button {
+  min-width: 38px;
+  border: 0;
+  padding: 7px 9px;
+  background: transparent;
+}
+
+.toolbar .public-language-tabs button.active {
+  color: #fff;
+  background: #07142b;
+  box-shadow: 0 3px 9px #07142b30;
+}
+
+.english-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 7.4% 8%;
+  overflow: hidden;
+  color: #fff;
+  background: radial-gradient(circle at 85% 15%, #4426a5 0, #17274b 31%, #07142b 72%);
+}
+
+.english-slide::after {
+  content: "Q";
+  position: absolute;
+  right: 5%;
+  bottom: -16%;
+  color: #ffffff09;
+  font-size: 42cqw;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.english-slide-kicker {
+  position: relative;
+  z-index: 1;
+  color: #9a86ff;
+  font-size: 1.15cqw;
+  font-weight: 850;
+  letter-spacing: .18em;
+}
+
+.english-slide h1 {
+  position: relative;
+  z-index: 1;
+  width: 82%;
+  margin: 4% 0 2.5%;
+  font-size: 4.1cqw;
+  line-height: 1.04;
+  letter-spacing: -.045em;
+}
+
+.english-slide p {
+  position: relative;
+  z-index: 1;
+  width: 76%;
+  margin: 0;
+  color: #c3ccdb;
+  font-size: 1.55cqw;
+  line-height: 1.52;
+  white-space: pre-wrap;
+}
+
+.english-slide footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  padding: 2% 0 0;
+  border-top: 1px solid #ffffff22;
+  color: #9da9bd;
+  background: transparent;
+  font-size: 1cqw;
+  font-weight: 800;
+  letter-spacing: .12em;
+}

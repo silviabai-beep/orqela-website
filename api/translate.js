@@ -1,0 +1,61 @@
+import { generateText, Output } from 'ai';
+import { z } from 'zod';
+import { getSession, json } from './_lib.js';
+
+const translationSchema = z.object({
+  title: z.string(),
+  body: z.string(),
+  layers: z.array(z.object({ id: z.string(), text: z.string() }))
+});
+
+function clean(value, limit) {
+  return String(value || '').trim().slice(0, limit);
+}
+
+export async function POST(request) {
+  const session = getSession(request);
+  if (!session) return json({ error: '请先使用 GitHub 登录' }, 401);
+
+  try {
+    const input = await request.json();
+    const title = clean(input.title, 500);
+    const body = clean(input.body, 8000);
+    const layers = Array.isArray(input.layers)
+      ? input.layers.slice(0, 80).map((layer, index) => ({
+          id: clean(layer?.id || `layer-${index}`, 120),
+          text: clean(layer?.text, 1200)
+        }))
+      : [];
+    const totalLength = title.length + body.length + layers.reduce((sum, layer) => sum + layer.text.length, 0);
+    if (!totalLength) return json({ translation: { title: '', body: '', layers } });
+    if (totalLength > 12000) return json({ error: '当前页面文字过长，请缩短后重试' }, 413);
+
+    const { output } = await generateText({
+      model: 'openai/gpt-5.6-terra',
+      output: Output.object({ schema: translationSchema }),
+      providerOptions: {
+        gateway: {
+          user: session.login,
+          tags: ['feature:deck-translation', 'product:orqela']
+        }
+      },
+      prompt: `Translate the following ORQELA presentation content from Simplified Chinese into concise, natural business English.
+
+Rules:
+- Preserve ORQELA, SELL / BUY / BUILD, numbers, currencies, percentages, product names, and line breaks.
+- Use an investor/customer presentation tone.
+- Do not add claims, facts, or explanations.
+- Return every layer with the same id and in the same order.
+
+${JSON.stringify({ title, body, layers })}`
+    });
+
+    return json({ translation: output });
+  } catch (error) {
+    console.error('Translation failed', error);
+    const status = Number(error?.statusCode || error?.status || 500);
+    if (status === 402) return json({ error: 'Vercel AI Gateway 额度不足，请在 Vercel 中充值后重试' }, 402);
+    if (status === 429) return json({ error: '翻译请求过于频繁，请稍后重试' }, 429);
+    return json({ error: '英文自动生成暂时失败，请稍后重试' }, 503);
+  }
+}

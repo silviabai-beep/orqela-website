@@ -1,22 +1,112 @@
 {
-  "version": 1,
+  "version": 2,
   "title": "ORQELA 投资人客户介绍 v3.6",
   "updatedAt": "2026-08-11T00:00:00.000Z",
   "slides": [
-    { "id": "canva-1", "src": "assets/slides/1.png?v=20260811", "title": "ORQELA v3.6 · 第 1 页", "layers": [] },
-    { "id": "canva-2", "src": "assets/slides/2.png?v=20260811", "title": "ORQELA v3.6 · 第 2 页", "layers": [] },
-    { "id": "canva-3", "src": "assets/slides/3.png?v=20260811", "title": "ORQELA v3.6 · 第 3 页", "layers": [] },
-    { "id": "canva-4", "src": "assets/slides/4.png?v=20260811", "title": "ORQELA v3.6 · 第 4 页", "layers": [] },
-    { "id": "canva-5", "src": "assets/slides/5.png?v=20260811", "title": "ORQELA v3.6 · 第 5 页", "layers": [] },
-    { "id": "canva-6", "src": "assets/slides/6.png?v=20260811", "title": "ORQELA v3.6 · 第 6 页", "layers": [] },
-    { "id": "canva-7", "src": "assets/slides/7.png?v=20260811", "title": "ORQELA v3.6 · 第 7 页", "layers": [] },
-    { "id": "canva-8", "src": "assets/slides/8.png?v=20260811", "title": "ORQELA v3.6 · 第 8 页", "layers": [] },
-    { "id": "canva-9", "src": "assets/slides/9.png?v=20260811", "title": "ORQELA v3.6 · 第 9 页", "layers": [] },
-    { "id": "canva-10", "src": "assets/slides/10.png?v=20260811", "title": "ORQELA v3.6 · 第 10 页", "layers": [] },
-    { "id": "canva-11", "src": "assets/slides/11.png?v=20260811", "title": "ORQELA v3.6 · 第 11 页", "layers": [] },
-    { "id": "canva-12", "src": "assets/slides/12.png?v=20260811", "title": "ORQELA v3.6 · 第 12 页", "layers": [] },
-    { "id": "canva-13", "src": "assets/slides/13.png?v=20260811", "title": "ORQELA v3.6 · 第 13 页", "layers": [] },
-    { "id": "canva-14", "src": "assets/slides/14.png?v=20260811", "title": "ORQELA v3.6 · 第 14 页", "layers": [] },
-    { "id": "canva-15", "src": "assets/slides/15.png?v=20260811", "title": "ORQELA v3.6 · 第 15 页", "layers": [] }
+    {
+      "id": "canva-1", "src": "assets/slides/1.png?v=20260811", "title": "轻资产、数据驱动、合规优先的柔性供应链平台", "layers": [],
+      "content": {
+        "zh": { "title": "轻资产、数据驱动、合规优先的柔性供应链平台", "body": "从终端需求出发，指导 SELL / BUY / BUILD；通过合规零部件供应商与本地组装伙伴，降低平台库存、资金垫付、进出口和合规履约风险。" },
+        "en": { "title": "An Asset-Light, Data-Driven, Compliance-First Flexible Supply Chain Platform", "body": "Starting with end-market demand, ORQELA guides SELL / BUY / BUILD decisions. Compliant component suppliers and local assembly partners reduce inventory, working-capital, import/export, and compliance-fulfilment risks for the platform." }
+      }
+    },
+    {
+      "id": "canva-2", "src": "assets/slides/2.png?v=20260811", "title": "执行摘要：需求与供应之间的 AI 决策层", "layers": [],
+      "content": {
+        "zh": { "title": "执行摘要：ORQELA 是需求与供应之间的 AI 决策层", "body": "1. 汇集终端动销、渠道与产品数据。\n2. 用 AI 生成 SELL / BUY / BUILD 建议。\n3. 连接合规零部件供应商与本地组装伙伴。\n4. 以订阅、使用量与采购协同形成收入。\n目标：让受监管消费品贸易更轻、更准、更快。" },
+        "en": { "title": "Executive Summary: ORQELA Is the AI Decision Layer Between Demand and Supply", "body": "1. Consolidate sell-through, channel, and product data.\n2. Use AI to generate SELL / BUY / BUILD recommendations.\n3. Connect compliant component suppliers with local assembly partners.\n4. Generate revenue through subscriptions, usage, and procurement coordination.\nGoal: make regulated consumer-goods trade lighter, more precise, and faster." }
+      }
+    },
+    {
+      "id": "canva-3", "src": "assets/slides/3.png?v=20260811", "title": "为什么现在：行业重构窗口期", "layers": [],
+      "content": {
+        "zh": { "title": "为什么现在：雾化类产品进入“数据 + 合规 + 供应链重构”窗口期", "body": "市场仍在增长，但需求更加分散；渠道需要更快、更小批量的补货；监管趋严，提高了准入与履约门槛；产品迭代加速，传统预测和重库存模式越来越低效。" },
+        "en": { "title": "Why Now: Vapor Products Are Entering a Data, Compliance, and Supply-Chain Reset", "body": "The market continues to grow, but demand is increasingly fragmented. Channels need faster, smaller-batch replenishment. Tighter regulation raises market-entry and fulfilment requirements, while faster product cycles make traditional forecasting and inventory-heavy models less efficient." }
+      }
+    },
+    {
+      "id": "canva-4", "src": "assets/slides/4.png?v=20260811", "title": "品类边界：受监管雾化消费品", "layers": [],
+      "content": {
+        "zh": { "title": "品类边界：从电子烟扩展到更大的“雾化类受监管消费品”", "body": "覆盖 Vape、新型烟草、CBD 等具有相似供应链和监管特征的品类。统一逻辑是：终端需求变化快、SKU 多、合规要求高，需要数据驱动的选品、采购和新品决策。" },
+        "en": { "title": "Category Scope: From E-Cigarettes to the Broader Regulated Vapor-Products Market", "body": "The platform covers Vape, next-generation tobacco, CBD, and adjacent categories with similar supply-chain and regulatory characteristics. The common need is data-driven assortment, purchasing, and product-development decisions across fast-changing demand, many SKUs, and high compliance requirements." }
+      }
+    },
+    {
+      "id": "canva-5", "src": "assets/slides/5.png?v=20260811", "title": "上下游痛点：缺少每日决策助手", "layers": [],
+      "content": {
+        "zh": { "title": "上下游痛点：不是缺工具，而是缺一个“每天能做决策”的 AI 助手", "body": "零售商不知道该卖什么；分销商不知道该买多少；供应商不知道该生产什么；平台难以同时控制库存、现金、合规和履约。ORQELA 把分散数据转化为每日可执行决策。" },
+        "en": { "title": "Industry Pain Point: The Missing Tool Is an AI Assistant That Makes Daily Decisions", "body": "Retailers do not know what to sell; distributors do not know how much to buy; suppliers do not know what to produce; and platforms struggle to manage inventory, cash, compliance, and fulfilment at once. ORQELA turns fragmented data into daily, actionable decisions." }
+      }
+    },
+    {
+      "id": "canva-6", "src": "assets/slides/6.png?v=20260811", "title": "产品形态：AI Trade Assistant", "layers": [],
+      "content": {
+        "zh": { "title": "产品形态：一个 AI Trade Assistant，回答 SELL / BUY / BUILD 三个问题", "body": "SELL：哪些产品应该优先销售。\nBUY：何时、向谁、采购多少。\nBUILD：下一款产品应该如何定义。\n体验原则：结论清晰、依据可追溯、行动可执行。" },
+        "en": { "title": "Product: One AI Trade Assistant for SELL / BUY / BUILD Decisions", "body": "SELL: which products to prioritize.\nBUY: when to purchase, from whom, and how much.\nBUILD: how to define the next product.\nExperience principles: clear conclusions, traceable evidence, and executable actions." }
+      }
+    },
+    {
+      "id": "canva-7", "src": "assets/slides/7.png?v=20260811", "title": "合规优先的轻资产运营模型", "layers": [],
+      "content": {
+        "zh": { "title": "合规优先的轻资产运营模型", "body": "ORQELA 负责需求智能、产品定义、合规工作流和供应商编排；合规供应商提供零部件，本地持牌伙伴完成组装与履约，交易结果持续回流数据系统。" },
+        "en": { "title": "A Compliance-First, Asset-Light Operating Model", "body": "ORQELA manages demand intelligence, product definition, compliance workflows, and supplier orchestration. Compliant suppliers provide components, licensed local partners handle assembly and fulfilment, and transaction outcomes continuously feed back into the data system." }
+      }
+    },
+    {
+      "id": "canva-8", "src": "assets/slides/8.png?v=20260811", "title": "风险分配：赚决策效率的钱", "layers": [],
+      "content": {
+        "zh": { "title": "风险分配：平台赚“决策效率的钱”，不赚“压库存的钱”", "body": "平台不承担大规模库存、长期资金垫付、跨境持牌主体和重资产生产；平台承担数据产品、决策质量、合规流程、供应商质量和交易协调。" },
+        "en": { "title": "Risk Allocation: Monetize Decision Efficiency, Not Inventory Exposure", "body": "The platform avoids large inventory positions, long-term working-capital advances, cross-border licensing entities, and asset-heavy production. It owns the data product, decision quality, compliance workflow, supplier quality, and transaction coordination." }
+      }
+    },
+    {
+      "id": "canva-9", "src": "assets/slides/9.png?v=20260811", "title": "数据飞轮：从动销到新品设计", "layers": [],
+      "content": {
+        "zh": { "title": "数据飞轮：从终端动销到新品设计", "body": "Business Discovery → Product Intelligence → SELL / BUY / BUILD → Supplier & RFQ → Market Feedback → Outcome Learning。每一次交易与反馈都改善下一次选品、采购和产品定义。" },
+        "en": { "title": "The Data Flywheel: From Sell-Through to New-Product Design", "body": "Business Discovery → Product Intelligence → SELL / BUY / BUILD → Supplier & RFQ → Market Feedback → Outcome Learning. Every transaction and feedback signal improves the next assortment, purchasing, and product-definition decision." }
+      }
+    },
+    {
+      "id": "canva-10", "src": "assets/slides/10.png?v=20260811", "title": "商业模式：订阅、Usage 与采购协同", "layers": [],
+      "content": {
+        "zh": { "title": "商业模式：前端订阅与 Usage 覆盖成本，后端采购放大利润", "body": "前端收入：SaaS 订阅、按使用量收费、数据与合规模块。\n后端收入：采购协同、供应商服务和交易佣金。\n随着数据和交易规模增长，软件毛利与供应链协同利润同步提升。" },
+        "en": { "title": "Business Model: Subscriptions and Usage Cover Costs; Procurement Expands Profit", "body": "Front-end revenue: SaaS subscriptions, usage-based fees, and data and compliance modules.\nBack-end revenue: procurement coordination, supplier services, and transaction commissions.\nAs data and transaction volumes grow, software margin and supply-chain coordination profit expand together." }
+      }
+    },
+    {
+      "id": "canva-11", "src": "assets/slides/11.png?v=20260811", "title": "融资与资金规划：分阶段解锁", "layers": [],
+      "content": {
+        "zh": { "title": "融资与资金规划：分阶段解锁，不为“大而全平台”烧钱", "body": "资金按里程碑投入：先验证核心决策产品与付费意愿，再扩展合规供应网络和交易能力，最后复制到更多市场。每一阶段都以可量化的客户、收入与数据指标解锁下一阶段。" },
+        "en": { "title": "Funding Plan: Unlock Capital in Stages, Not for an All-in-One Platform", "body": "Capital is deployed against milestones: first validate the core decision product and willingness to pay; then expand the compliant supply network and transaction capabilities; finally replicate across more markets. Quantifiable customer, revenue, and data metrics unlock each next stage." }
+      }
+    },
+    {
+      "id": "canva-12", "src": "assets/slides/12.png?v=20260811", "title": "12–18 个月执行路径", "layers": [],
+      "content": {
+        "zh": { "title": "12–18 个月执行路径", "body": "阶段 1：完成数据接入与 SELL / BUY MVP。\n阶段 2：上线 BUILD、RFQ 与供应商协同。\n阶段 3：跑通美国市场的合规交易闭环。\n阶段 4：复制到欧洲、中东、东南亚与拉美重点市场。" },
+        "en": { "title": "12–18 Month Execution Roadmap", "body": "Phase 1: complete data ingestion and the SELL / BUY MVP.\nPhase 2: launch BUILD, RFQ, and supplier collaboration.\nPhase 3: establish a compliant transaction loop in the United States.\nPhase 4: replicate into priority markets across Europe, the Middle East, Southeast Asia, and Latin America." }
+      }
+    },
+    {
+      "id": "canva-13", "src": "assets/slides/13.png?v=20260811", "title": "Global-by-Design：美国首先", "layers": [],
+      "content": {
+        "zh": { "title": "Global-by-Design：美国首先，但从第一天为多市场预留", "body": "US Pack：美国渠道、产品与合规数据包。\nEU / UK Pack：区域法规与品类适配。\nIndonesia / UAE Custom：重点市场定制。\nLatAm Expansion：以合作伙伴网络扩张。" },
+        "en": { "title": "Global by Design: U.S. First, Multi-Market from Day One", "body": "US Pack: U.S. channel, product, and compliance data.\nEU / UK Pack: regional regulation and category adaptation.\nIndonesia / UAE Custom: tailored solutions for priority markets.\nLatAm Expansion: partner-led market expansion." }
+      }
+    },
+    {
+      "id": "canva-14", "src": "assets/slides/14.png?v=20260811", "title": "投资亮点：轻资产 AI 公司", "layers": [],
+      "content": {
+        "zh": { "title": "投资亮点：一个轻资产 AI 公司，而不是传统贸易公司", "body": "轻资产：避免重库存与重生产。\n数据网络：交易越多，决策越准。\n供应链协同：连接合规供应与本地履约。\n合规优先：将监管要求嵌入工作流。\n可扩展：同一决策层可复制到多个市场和品类。" },
+        "en": { "title": "Investment Highlights: An Asset-Light AI Company, Not a Traditional Trading Company", "body": "Asset-light: avoids inventory-heavy and production-heavy operations.\nData network: more transactions improve decision quality.\nSupply-chain coordination: connects compliant supply with local fulfilment.\nCompliance-first: embeds regulatory requirements into workflows.\nScalable: the same decision layer can expand across markets and categories." }
+      }
+    },
+    {
+      "id": "canva-15", "src": "assets/slides/15.png?v=20260811", "title": "用 AI 把贸易做轻、做准、做快", "layers": [],
+      "content": {
+        "zh": { "title": "从终端需求到合规供应，用 AI 把雾化类产品贸易做轻、做准、做快。", "body": "SELL / BUY / BUILD\n机密讨论材料" },
+        "en": { "title": "From End-Market Demand to Compliant Supply, AI Makes Vapor-Product Trade Lighter, Smarter, and Faster.", "body": "SELL / BUY / BUILD\nConfidential discussion material" }
+      }
+    }
   ]
 }

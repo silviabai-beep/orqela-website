@@ -7,7 +7,7 @@
   <meta name="description" content="ORQELA 投资人客户介绍 v3.6 - 可排序的网页幻灯片">
   <title>ORQELA v3.6｜演示文稿</title>
   <link rel="stylesheet" href="styles.css?v=6">
-  <link rel="stylesheet" href="editor-overrides.css?v=1">
+  <link rel="stylesheet" href="editor-overrides.css?v=2">
 </head>
 <body>
   <aside class="rail" aria-label="幻灯片导航">
@@ -31,6 +31,10 @@
         <label>页码 <input id="page-number" type="number" min="1" value="1" aria-label="当前页码"></label>
         <span id="page-total">/ 15</span>
         <button id="next-slide" aria-label="下一页">→</button>
+        <div class="public-language-tabs" aria-label="Language">
+          <button id="public-language-zh" class="active">中文</button>
+          <button id="public-language-en">EN</button>
+        </div>
         <button id="save-deck">保存草稿</button>
         <button id="reset-deck">恢复 15 页</button>
         <a class="admin-link" href="admin.html">在线编辑</a>
@@ -43,6 +47,12 @@
       <button class="stage-nav prev" id="stage-prev" aria-label="上一页">‹</button>
       <div class="stage" id="stage">
         <img id="slide-image" alt="当前 ORQELA 幻灯片">
+        <article id="english-slide" class="english-slide" hidden>
+          <span class="english-slide-kicker">ORQELA · ENGLISH VERSION</span>
+          <h1 id="english-slide-title"></h1>
+          <p id="english-slide-body"></p>
+          <footer><span>ORQELA</span><span id="english-slide-number"></span></footer>
+        </article>
         <div id="slide-layers" class="slide-layers" aria-hidden="true"></div>
         <div id="blank-slide" class="blank-slide" hidden>
           <span>ORQELA</span>
@@ -55,6 +65,6 @@
     <footer><span id="status">已加载 Canva v3.6</span><span>方向键翻页 · Esc 退出演示</span></footer>
   </main>
   <input id="image-picker" type="file" accept="image/*" hidden>
-  <script src="script.js?v=6"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>
