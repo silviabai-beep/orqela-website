@@ -1,15 +1,25 @@
-import { generateText, Output } from 'ai';
-import { z } from 'zod';
+import { generateText } from 'ai';
 import { getSession, json } from './_lib.js';
-
-const translationSchema = z.object({
-  title: z.string(),
-  body: z.string(),
-  layers: z.array(z.object({ id: z.string(), text: z.string() }))
-});
 
 function clean(value, limit) {
   return String(value || '').trim().slice(0, limit);
+}
+
+function parseTranslation(text, expectedLayers) {
+  const cleaned = String(text || '').replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+  const start = cleaned.indexOf('{');
+  const end = cleaned.lastIndexOf('}');
+  if (start < 0 || end <= start) throw new Error('Translation model did not return JSON');
+  const value = JSON.parse(cleaned.slice(start, end + 1));
+  if (typeof value.title !== 'string' || typeof value.body !== 'string' || !Array.isArray(value.layers)) {
+    throw new Error('Translation model returned an invalid structure');
+  }
+  const byId = new Map(value.layers.map(layer => [String(layer?.id || ''), String(layer?.text || '')]));
+  return {
+    title: clean(value.title, 1000),
+    body: clean(value.body, 12000),
+    layers: expectedLayers.map(layer => ({ id: layer.id, text: clean(byId.get(layer.id), 2400) }))
+  };
 }
 
 export async function POST(request) {
@@ -30,9 +40,8 @@ export async function POST(request) {
     if (!totalLength) return json({ translation: { title: '', body: '', layers } });
     if (totalLength > 12000) return json({ error: '当前页面文字过长，请缩短后重试' }, 413);
 
-    const { output } = await generateText({
+    const { text } = await generateText({
       model: 'inclusionai/ling-3.0-tiny-free',
-      output: Output.object({ schema: translationSchema }),
       providerOptions: {
         gateway: {
           user: session.login,
@@ -46,11 +55,13 @@ Rules:
 - Use an investor/customer presentation tone.
 - Do not add claims, facts, or explanations.
 - Return every layer with the same id and in the same order.
+- Return only one valid JSON object with exactly this shape: {"title":"...","body":"...","layers":[{"id":"...","text":"..."}]}.
+- Do not wrap the JSON in Markdown fences.
 
 ${JSON.stringify({ title, body, layers })}`
     });
 
-    return json({ translation: output });
+    return json({ translation: parseTranslation(text, layers) });
   } catch (error) {
     console.error('Translation failed', error);
     const status = Number(error?.statusCode || error?.status || 500);
