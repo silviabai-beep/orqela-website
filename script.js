@@ -1,6 +1,5 @@
 import { seedNativeElements } from './native-elements.js?v=3';
 
-const CANVA_URL = 'https://www.canva.com/design/DAHR8BHX_j4/PBM6m6QJqnxjpvj5RPpnGg/edit';
 const STORAGE_KEY = 'orqela-public-draft-v3';
 const fallbackSlides = Array.from({ length: 15 }, (_, index) => ({
   id: `canva-${index + 1}`,
@@ -94,9 +93,7 @@ function renderRail() {
     button.className = `slide-thumb${slide.id === activeId ? ' active' : ''}`;
     button.draggable = true;
     button.dataset.id = slide.id;
-    const preview = slide.src
-      ? `<img class="thumb-preview" src="${escapeHtml(slide.src)}" alt="">`
-      : '<span class="thumb-preview thumb-blank">＋</span>';
+    const preview = `<span class="thumb-preview thumb-blank native-thumb">${String(index + 1).padStart(2, '0')}</span>`;
     const railTitle = activeLanguage === 'en' ? (slide.content.en.title || slide.title) : (slide.content.zh.title || slide.title);
     button.innerHTML = `<span class="drag-handle">⋮⋮</span>${preview}<span class="thumb-copy"><b>${String(index + 1).padStart(2, '0')} · ${escapeHtml(railTitle)}</b><small>${activeLanguage === 'en' ? 'Drag to reorder draft' : '拖拽调整草稿顺序'}</small></span>`;
     button.addEventListener('click', () => selectSlide(slide.id));
@@ -294,8 +291,6 @@ document.addEventListener('keydown', event => {
   if (event.key === 'Escape' && document.body.classList.contains('presenting')) togglePresentation();
 });
 document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) document.body.classList.remove('presenting'); });
-document.querySelector('.canva').href = CANVA_URL;
-
 async function initialize() {
   try {
     const response = await fetch(`deck.json?t=${Date.now()}`, { cache: 'no-store' });

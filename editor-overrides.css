@@ -30,6 +30,12 @@
   border-radius: inherit;
 }
 
+.thumb-native, .native-thumb {
+  color: #fff;
+  background: linear-gradient(135deg, #6d36ff, #13284d);
+  letter-spacing: .08em;
+}
+
 .toolbar .admin-link {
   background: #07142b;
   color: #fff;

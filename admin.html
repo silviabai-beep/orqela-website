@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#07142b">
   <meta name="robots" content="noindex,nofollow">
   <title>ORQELA｜在线编辑器</title>
-  <link rel="stylesheet" href="admin.css?v=5">
+  <link rel="stylesheet" href="admin.css?v=6">
 </head>
 <body>
   <section id="login-view" class="login-view">
@@ -38,7 +38,7 @@
         <button id="add-page" class="accent">＋ 新增页</button>
         <button id="duplicate-page">复制</button>
         <button id="delete-page">删除</button>
-        <button id="replace-page-image">替换底图</button>
+        <button id="add-image-layer">＋ 添加图片</button>
       </div>
     </aside>
 
@@ -53,7 +53,6 @@
           <button id="language-zh" class="active">中文页</button>
           <button id="language-en">English</button>
         </div>
-        <button id="original-preview" type="button">查看原设计</button>
         <span id="translation-state" class="translation-state">英文已同步</span>
         <span class="separator"></span>
         <button id="add-text-layer" class="accent-outline">＋ 添加文字</button>
@@ -62,7 +61,7 @@
       </div>
       <div class="admin-canvas-shell">
         <div id="admin-stage" class="admin-stage">
-          <img id="admin-slide-image" alt="当前编辑页面">
+          <img id="admin-slide-image" alt="" hidden>
           <div id="admin-blank" class="admin-blank" hidden>新页面</div>
           <article id="admin-english-page" class="admin-english-page editable-content-page" hidden>
             <span id="editable-page-kicker" class="english-kicker">ORQELA · EDITABLE VERSION</span>
@@ -86,11 +85,10 @@
         <label class="field">English title<input id="content-title-en" type="text"></label>
         <label class="field">English body<textarea id="content-body-en" rows="6"></textarea></label>
       </div>
-      <label class="field">底图地址<input id="slide-src" type="text" readonly></label>
       <hr>
       <div id="layer-empty" class="empty-inspector">
         <b>所有内容都已拆成网页图层</b>
-        <p>点击画布里的文字、卡片或图形即可编辑；原 Canva 页面仅作为“查看原设计”的参考。</p>
+        <p>点击画布里的文字、卡片、图形或图片即可编辑；所有内容都在同一个版本中。</p>
       </div>
       <div id="layer-controls" hidden>
         <label class="field">中文文字<textarea id="layer-text" rows="4"></textarea></label>
@@ -125,6 +123,6 @@
 
   <input id="admin-image-picker" type="file" accept="image/png,image/jpeg,image/webp" hidden>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="admin.js?v=5"></script>
+  <script type="module" src="admin.js?v=6"></script>
 </body>
 </html>

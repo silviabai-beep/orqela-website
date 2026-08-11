@@ -54,6 +54,7 @@ button { cursor: pointer; }
 .admin-thumb .handle { color: #64738d; font-size: 10px; cursor: grab; }
 .admin-thumb img, .admin-thumb .blank-thumb { width: 58px; aspect-ratio: 16/9; object-fit: cover; border-radius: 4px; background: #fff; }
 .admin-thumb .blank-thumb { display: grid; place-items: center; color: var(--purple); font-weight: 900; }
+.admin-thumb .native-thumb { color: #fff; background: linear-gradient(135deg, #6d36ff, #13284d); letter-spacing: .08em; }
 .admin-thumb span:last-child { min-width: 0; display: grid; gap: 4px; }
 .admin-thumb b { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 9px; }
 .admin-thumb small { color: #71809b; font-size: 8px; }

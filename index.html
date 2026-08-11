@@ -7,7 +7,7 @@
   <meta name="description" content="ORQELA 投资人客户介绍 v3.6 - 可排序的网页幻灯片">
   <title>ORQELA v3.6｜演示文稿</title>
   <link rel="stylesheet" href="styles.css?v=6">
-  <link rel="stylesheet" href="editor-overrides.css?v=5">
+  <link rel="stylesheet" href="editor-overrides.css?v=6">
 </head>
 <body>
   <aside class="rail" aria-label="幻灯片导航">
@@ -17,12 +17,12 @@
     <div class="rail-actions viewer-actions">
       <a class="primary-editor" href="admin.html">✎ 编辑图片和文字</a>
     </div>
-    <p class="rail-help">当前为展示模式。进入在线编辑器后可拖拽排序、增减页面、替换图片并直接修改中英文文字。</p>
+      <p class="rail-help">只有一个网页版本。进入在线编辑器后可直接修改中英文文字，并拖动、缩放图片或图形。</p>
   </aside>
 
   <main class="workspace">
     <header class="topbar">
-      <div class="doc-title"><b>ORQELA 投资人客户介绍</b><span>Canva 可编辑版 · v3.6</span></div>
+      <div class="doc-title"><b>ORQELA 投资人客户介绍</b><span>网页可编辑版 · v3.6</span></div>
       <div class="toolbar">
         <button id="prev-slide" aria-label="上一页">←</button>
         <label>页码 <input id="page-number" type="number" min="1" value="1" aria-label="当前页码"></label>
@@ -35,7 +35,6 @@
         <button id="save-deck" hidden>保存草稿</button>
         <button id="reset-deck" hidden>恢复 15 页</button>
         <a class="admin-link" href="admin.html">✎ 编辑图片和文字</a>
-        <a class="canva" href="https://www.canva.com/design/DAHR8BHX_j4/PBM6m6QJqnxjpvj5RPpnGg/edit" target="_blank" rel="noopener">在 Canva 编辑 ↗</a>
         <button id="present-deck" class="present">演示</button>
       </div>
     </header>
@@ -59,9 +58,9 @@
       </div>
       <button class="stage-nav next" id="stage-next" aria-label="下一页">›</button>
     </section>
-    <footer><span id="status">已加载 Canva v3.6</span><span>方向键翻页 · Esc 退出演示</span></footer>
+    <footer><span id="status">正在加载网页版本</span><span>方向键翻页 · Esc 退出演示</span></footer>
   </main>
   <input id="image-picker" type="file" accept="image/*" hidden>
-  <script type="module" src="script.js?v=10"></script>
+  <script type="module" src="script.js?v=11"></script>
 </body>
 </html>
