@@ -23,12 +23,30 @@
   background: #07142b;
   color: #fff;
   border-color: #07142b;
+  box-shadow: 0 8px 20px #07142b25;
 }
 
 .toolbar .admin-link:hover {
   background: #122343;
   color: #fff;
   border-color: #6b35ff;
+}
+
+.viewer-actions {
+  display: block;
+}
+
+.viewer-actions .primary-editor {
+  display: block;
+  padding: 12px 10px;
+  border-radius: 9px;
+  color: #fff;
+  background: linear-gradient(135deg, #7a47ff, #5c2be6);
+  box-shadow: 0 10px 24px #6b35ff42;
+  text-align: center;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 850;
 }
 
 .public-language-tabs {
@@ -117,3 +135,9 @@
   font-weight: 800;
   letter-spacing: .12em;
 }
+
+.english-slide.compact h1 { font-size: 3.45cqw; margin-top: 3%; }
+.english-slide.compact p { font-size: 1.3cqw; line-height: 1.42; }
+.english-slide.dense { padding-top: 5.5%; padding-bottom: 5.5%; }
+.english-slide.dense h1 { font-size: 3cqw; margin: 2.5% 0 1.8%; }
+.english-slide.dense p { width: 82%; font-size: 1.12cqw; line-height: 1.34; }

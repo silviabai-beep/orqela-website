@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#07142b">
   <meta name="robots" content="noindex,nofollow">
   <title>ORQELA｜在线编辑器</title>
-  <link rel="stylesheet" href="admin.css?v=2">
+  <link rel="stylesheet" href="admin.css?v=3">
 </head>
 <body>
   <section id="login-view" class="login-view">
@@ -53,6 +53,7 @@
           <button id="language-zh" class="active">中文页</button>
           <button id="language-en">English</button>
         </div>
+        <button id="original-preview" type="button">查看原设计</button>
         <span id="translation-state" class="translation-state">英文已同步</span>
         <span class="separator"></span>
         <button id="add-text-layer" class="accent-outline">＋ 添加文字</button>
@@ -62,10 +63,10 @@
         <div id="admin-stage" class="admin-stage">
           <img id="admin-slide-image" alt="当前编辑页面">
           <div id="admin-blank" class="admin-blank" hidden>新页面</div>
-          <article id="admin-english-page" class="admin-english-page" hidden>
-            <span class="english-kicker">ORQELA · ENGLISH VERSION</span>
-            <h1 id="english-preview-title"></h1>
-            <p id="english-preview-body"></p>
+          <article id="admin-english-page" class="admin-english-page editable-content-page" hidden>
+            <span id="editable-page-kicker" class="english-kicker">ORQELA · EDITABLE VERSION</span>
+            <h1 id="english-preview-title" contenteditable="true" spellcheck="true"></h1>
+            <p id="english-preview-body" contenteditable="true" spellcheck="true"></p>
             <footer><span>ORQELA</span><span id="english-preview-number"></span></footer>
           </article>
           <div id="admin-layer-host" class="admin-layer-host"></div>
@@ -75,7 +76,7 @@
     </main>
 
     <aside class="inspector">
-      <div class="inspector-heading"><b>页面设置</b><span id="selection-label">未选择文字</span></div>
+      <div class="inspector-heading"><b>页面设置</b><span id="selection-label">可直接点击画布文字编辑</span></div>
       <label class="field">页面标题<input id="slide-title" type="text" placeholder="用于左侧页面列表"></label>
       <div class="bilingual-fields">
         <label class="field">中文标题<input id="content-title-zh" type="text" placeholder="修改后自动生成英文"></label>
@@ -118,6 +119,6 @@
 
   <input id="admin-image-picker" type="file" accept="image/png,image/jpeg,image/webp" hidden>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="admin.js?v=2"></script>
+  <script type="module" src="admin.js?v=3"></script>
 </body>
 </html>

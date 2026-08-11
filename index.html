@@ -7,20 +7,17 @@
   <meta name="description" content="ORQELA 投资人客户介绍 v3.6 - 可排序的网页幻灯片">
   <title>ORQELA v3.6｜演示文稿</title>
   <link rel="stylesheet" href="styles.css?v=6">
-  <link rel="stylesheet" href="editor-overrides.css?v=2">
+  <link rel="stylesheet" href="editor-overrides.css?v=3">
 </head>
 <body>
   <aside class="rail" aria-label="幻灯片导航">
     <div class="rail-brand"><span class="qmark">Q</span><div><b>ORQELA</b><small>v3.6 · SLIDE BUILDER</small></div></div>
     <div class="rail-heading"><span>页面</span><b id="deck-count">15</b></div>
     <div class="slide-list" id="slide-list" aria-label="可拖拽页面列表"></div>
-    <div class="rail-actions">
-      <button id="add-slide" class="primary">＋ 新增页</button>
-      <button id="duplicate-slide">复制</button>
-      <button id="delete-slide">删除</button>
-      <button id="replace-image">替换图片</button>
+    <div class="rail-actions viewer-actions">
+      <a class="primary-editor" href="admin.html">✎ 编辑图片和文字</a>
     </div>
-    <p class="rail-help">浏览页面或进入在线编辑器，将更改直接发布到 GitHub。</p>
+    <p class="rail-help">当前为展示模式。进入在线编辑器后可拖拽排序、增减页面、替换图片并直接修改中英文文字。</p>
   </aside>
 
   <main class="workspace">
@@ -35,9 +32,9 @@
           <button id="public-language-zh" class="active">中文</button>
           <button id="public-language-en">EN</button>
         </div>
-        <button id="save-deck">保存草稿</button>
-        <button id="reset-deck">恢复 15 页</button>
-        <a class="admin-link" href="admin.html">在线编辑</a>
+        <button id="save-deck" hidden>保存草稿</button>
+        <button id="reset-deck" hidden>恢复 15 页</button>
+        <a class="admin-link" href="admin.html">✎ 编辑图片和文字</a>
         <a class="canva" href="https://www.canva.com/design/DAHR8BHX_j4/PBM6m6QJqnxjpvj5RPpnGg/edit" target="_blank" rel="noopener">在 Canva 编辑 ↗</a>
         <button id="present-deck" class="present">演示</button>
       </div>
@@ -65,6 +62,6 @@
     <footer><span id="status">已加载 Canva v3.6</span><span>方向键翻页 · Esc 退出演示</span></footer>
   </main>
   <input id="image-picker" type="file" accept="image/*" hidden>
-  <script src="script.js?v=7"></script>
+  <script src="script.js?v=8"></script>
 </body>
 </html>

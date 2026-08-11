@@ -6,6 +6,7 @@ const state = {
   draggedSlideId: null,
   pendingFiles: new Map(),
   activeLanguage: 'zh',
+  showOriginal: false,
   translationRequest: 0,
   dirty: false,
   publishing: false
@@ -24,6 +25,7 @@ const ui = {
   image: document.querySelector('#admin-slide-image'),
   blank: document.querySelector('#admin-blank'),
   englishPage: document.querySelector('#admin-english-page'),
+  editablePageKicker: document.querySelector('#editable-page-kicker'),
   englishPreviewTitle: document.querySelector('#english-preview-title'),
   englishPreviewBody: document.querySelector('#english-preview-body'),
   englishPreviewNumber: document.querySelector('#english-preview-number'),
@@ -40,6 +42,7 @@ const ui = {
   translationState: document.querySelector('#translation-state'),
   languageZh: document.querySelector('#language-zh'),
   languageEn: document.querySelector('#language-en'),
+  originalPreview: document.querySelector('#original-preview'),
   slideSrc: document.querySelector('#slide-src'),
   selectionLabel: document.querySelector('#selection-label'),
   layerEmpty: document.querySelector('#layer-empty'),
@@ -218,19 +221,31 @@ function applyLayerStyle(node, layer) {
   node.style.textAlign = layer.align;
 }
 
+function applyPageDensity(page, content) {
+  const titleLength = [...String(content.title || '')].length;
+  const bodyLength = [...String(content.body || '')].length;
+  const lines = String(content.body || '').split('\n').length;
+  page.classList.toggle('compact', titleLength > 58 || bodyLength > 230 || lines > 5);
+  page.classList.toggle('dense', titleLength > 90 || bodyLength > 430 || lines > 8);
+}
+
 function renderStage() {
   const slide = activeSlide();
   if (!slide) return;
   const src = slide.previewSrc || slide.src;
   const english = state.activeLanguage === 'en';
+  const original = !english && state.showOriginal;
+  const content = english ? slide.content.en : slide.content.zh;
   ui.languageZh.classList.toggle('active', !english);
   ui.languageEn.classList.toggle('active', english);
-  if (!english && src) {
+  ui.originalPreview.hidden = english;
+  ui.originalPreview.textContent = original ? '编辑文字版' : '查看原设计';
+  if (original && src) {
     ui.image.src = src;
     ui.image.hidden = false;
     ui.blank.hidden = true;
     ui.englishPage.hidden = true;
-  } else if (!english) {
+  } else if (original) {
     ui.image.removeAttribute('src');
     ui.image.hidden = true;
     ui.blank.hidden = false;
@@ -239,9 +254,11 @@ function renderStage() {
     ui.image.hidden = true;
     ui.blank.hidden = true;
     ui.englishPage.hidden = false;
-    ui.englishPreviewTitle.textContent = slide.content.en.title || 'English title will appear here';
-    ui.englishPreviewBody.textContent = slide.content.en.body || 'Edit the Chinese content to generate this English page automatically.';
+    ui.editablePageKicker.textContent = english ? 'ORQELA · ENGLISH · CLICK TEXT TO EDIT' : 'ORQELA · 中文 · 点击文字直接编辑';
+    ui.englishPreviewTitle.textContent = content.title || (english ? 'English title will appear here' : '点击输入中文标题');
+    ui.englishPreviewBody.textContent = content.body || (english ? 'Edit the Chinese content to generate this English page automatically.' : '点击输入中文正文');
     ui.englishPreviewNumber.textContent = `${String(activeIndex() + 1).padStart(2, '0')} / ${String(slides().length).padStart(2, '0')}`;
+    applyPageDensity(ui.englishPage, content);
   }
   ui.image.alt = `${slide.title}，第 ${activeIndex() + 1} 页`;
   ui.layerHost.innerHTML = '';
@@ -273,7 +290,7 @@ function renderInspector() {
   const layer = selectedLayer();
   ui.layerEmpty.hidden = Boolean(layer);
   ui.layerControls.hidden = !layer;
-  ui.selectionLabel.textContent = layer ? '已选择文字' : '未选择文字';
+  ui.selectionLabel.textContent = layer ? '已选择文字图层' : '可直接编辑画布文字';
   if (!layer) return;
   ui.layerText.value = layer.text;
   ui.layerTextEn.value = layer.textEn;
@@ -536,9 +553,37 @@ function updateEnglishContent() {
 
 function setLanguage(language) {
   state.activeLanguage = language;
+  state.showOriginal = false;
   state.selectedLayerId = null;
   renderStage();
   renderInspector();
+}
+
+function toggleOriginalPreview() {
+  state.showOriginal = !state.showOriginal;
+  state.selectedLayerId = null;
+  renderStage();
+  renderInspector();
+}
+
+function updateContentFromCanvas() {
+  const slide = activeSlide();
+  if (!slide || state.showOriginal) return;
+  const content = state.activeLanguage === 'en' ? slide.content.en : slide.content.zh;
+  content.title = ui.englishPreviewTitle.innerText.trim();
+  content.body = ui.englishPreviewBody.innerText.trim();
+  if (state.activeLanguage === 'en') {
+    ui.contentTitleEn.value = content.title;
+    ui.contentBodyEn.value = content.body;
+    setTranslationState('英文已手动调整', 'success');
+    markDirty('英文已直接修改，尚未发布');
+  } else {
+    ui.contentTitleZh.value = content.title;
+    ui.contentBodyZh.value = content.body;
+    markDirty('中文已直接修改，正在准备英文版本…');
+    scheduleTranslation();
+  }
+  applyPageDensity(ui.englishPage, content);
 }
 
 function serializableDeck() {
@@ -580,7 +625,12 @@ async function publish() {
   }
 }
 
-ui.stage.addEventListener('click', () => { state.selectedLayerId = null; renderStage(); renderInspector(); });
+ui.stage.addEventListener('click', event => {
+  if (event.target.closest('[contenteditable="true"]')) return;
+  state.selectedLayerId = null;
+  renderStage();
+  renderInspector();
+});
 ui.slideTitle.addEventListener('input', () => { activeSlide().title = ui.slideTitle.value; markDirty(); renderRail(); });
 ui.contentTitleZh.addEventListener('input', updateChineseContent);
 ui.contentBodyZh.addEventListener('input', updateChineseContent);
@@ -589,6 +639,10 @@ ui.contentBodyEn.addEventListener('input', updateEnglishContent);
 ui.translateNow.addEventListener('click', translateActiveSlide);
 ui.languageZh.addEventListener('click', () => setLanguage('zh'));
 ui.languageEn.addEventListener('click', () => setLanguage('en'));
+ui.originalPreview.addEventListener('click', toggleOriginalPreview);
+ui.englishPreviewTitle.addEventListener('input', updateContentFromCanvas);
+ui.englishPreviewBody.addEventListener('input', updateContentFromCanvas);
+ui.englishPreviewTitle.addEventListener('keydown', event => { if (event.key === 'Enter') event.preventDefault(); });
 ui.pageNumber.addEventListener('change', () => movePage(ui.pageNumber.value));
 document.querySelector('#previous-page').addEventListener('click', () => stepPage(-1));
 document.querySelector('#next-page').addEventListener('click', () => stepPage(1));

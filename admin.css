@@ -87,8 +87,16 @@ button { cursor: pointer; }
 .admin-english-page h1 { position: relative; z-index: 1; width: 82%; margin: 4% 0 2.5%; font-size: 4.1cqw; line-height: 1.04; letter-spacing: -.045em; }
 .admin-english-page p { position: relative; z-index: 1; width: 76%; margin: 0; color: #c3ccdb; font-size: 1.55cqw; line-height: 1.52; white-space: pre-wrap; }
 .admin-english-page footer { position: relative; z-index: 1; display: flex; justify-content: space-between; margin-top: auto; padding-top: 2%; border-top: 1px solid #ffffff22; color: #9da9bd; font-size: 1cqw; font-weight: 800; letter-spacing: .12em; }
-.admin-layer-host { position: absolute; inset: 0; }
-.editable-layer { position: absolute; display: flex; align-items: center; padding: .35em .5em; border: 1px dashed transparent; border-radius: .18em; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.16; cursor: move; }
+.editable-content-page h1, .editable-content-page p { cursor: text; outline: 1px dashed transparent; outline-offset: .2em; transition: outline-color .15s ease, background .15s ease; }
+.editable-content-page h1:hover, .editable-content-page p:hover { outline-color: #a993ff88; }
+.editable-content-page h1:focus, .editable-content-page p:focus { outline-color: #bcaaff; background: #ffffff0a; }
+.admin-english-page.compact h1 { font-size: 3.45cqw; margin-top: 3%; }
+.admin-english-page.compact p { font-size: 1.3cqw; line-height: 1.42; }
+.admin-english-page.dense { padding-top: 5.5%; padding-bottom: 5.5%; }
+.admin-english-page.dense h1 { font-size: 3cqw; margin: 2.5% 0 1.8%; }
+.admin-english-page.dense p { width: 82%; font-size: 1.12cqw; line-height: 1.34; }
+.admin-layer-host { position: absolute; inset: 0; pointer-events: none; }
+.editable-layer { position: absolute; display: flex; align-items: center; padding: .35em .5em; border: 1px dashed transparent; border-radius: .18em; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.16; cursor: move; pointer-events: auto; }
 .editable-layer:hover { border-color: #8e73ff; }
 .editable-layer.selected { border: 2px solid var(--purple); box-shadow: 0 0 0 2px #fff8; }
 .editable-layer.selected::after { content: "拖动"; position: absolute; right: 0; bottom: 100%; padding: 3px 6px; border-radius: 4px 4px 0 0; color: #fff; background: var(--purple); font-size: 8px; font-weight: 800; }

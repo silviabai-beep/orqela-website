@@ -126,6 +126,14 @@ function renderLayers(slide) {
   });
 }
 
+function fitEnglishPage(content) {
+  const titleLength = [...String(content.title || '')].length;
+  const bodyLength = [...String(content.body || '')].length;
+  const lines = String(content.body || '').split('\n').length;
+  englishSlide.classList.toggle('compact', titleLength > 58 || bodyLength > 230 || lines > 5);
+  englishSlide.classList.toggle('dense', titleLength > 90 || bodyLength > 430 || lines > 8);
+}
+
 function renderStage() {
   const slide = activeSlide();
   if (!slide) return;
@@ -152,6 +160,7 @@ function renderStage() {
     englishTitle.textContent = slide.content.en.title || 'English version unavailable';
     englishBody.textContent = slide.content.en.body || 'Open the online editor to generate the English page.';
     englishNumber.textContent = `${String(activeIndex() + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+    fitEnglishPage(slide.content.en);
   }
   renderLayers(slide);
   pageInput.value = activeIndex() + 1;
@@ -239,18 +248,18 @@ function togglePresentation() {
   else if (document.fullscreenElement) document.exitFullscreen?.();
 }
 
-document.querySelector('#add-slide').addEventListener('click', addSlide);
-document.querySelector('#duplicate-slide').addEventListener('click', duplicateSlide);
-document.querySelector('#delete-slide').addEventListener('click', deleteSlide);
-document.querySelector('#replace-image').addEventListener('click', () => picker.click());
+document.querySelector('#add-slide')?.addEventListener('click', addSlide);
+document.querySelector('#duplicate-slide')?.addEventListener('click', duplicateSlide);
+document.querySelector('#delete-slide')?.addEventListener('click', deleteSlide);
+document.querySelector('#replace-image')?.addEventListener('click', () => picker.click());
 picker.addEventListener('change', () => { replaceImage(picker.files[0]); picker.value = ''; });
 document.querySelector('#prev-slide').addEventListener('click', () => step(-1));
 document.querySelector('#next-slide').addEventListener('click', () => step(1));
 document.querySelector('#stage-prev').addEventListener('click', () => step(-1));
 document.querySelector('#stage-next').addEventListener('click', () => step(1));
 pageInput.addEventListener('change', () => moveActive(pageInput.value));
-document.querySelector('#save-deck').addEventListener('click', () => persist('草稿已保存到当前浏览器'));
-document.querySelector('#reset-deck').addEventListener('click', resetDeck);
+document.querySelector('#save-deck')?.addEventListener('click', () => persist('草稿已保存到当前浏览器'));
+document.querySelector('#reset-deck')?.addEventListener('click', resetDeck);
 document.querySelector('#present-deck').addEventListener('click', togglePresentation);
 languageZh.addEventListener('click', () => { activeLanguage = 'zh'; render(); });
 languageEn.addEventListener('click', () => { activeLanguage = 'en'; render(); });
