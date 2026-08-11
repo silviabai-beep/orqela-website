@@ -1,8 +1,8 @@
 const CANVA_URL = 'https://www.canva.com/design/DAHR8BHX_j4/PBM6m6QJqnxjpvj5RPpnGg/edit';
-const STORAGE_KEY = 'orqela-v36-web-deck';
+const STORAGE_KEY = 'orqela-v36-web-deck-r2';
 const originalSlides = Array.from({ length: 15 }, (_, index) => ({
   id: `canva-${index + 1}`,
-  src: `assets/slides/${index + 1}.png`,
+  src: `assets/slides/${index + 1}.png?v=20260811`,
   title: `ORQELA v3.6 · 第 ${index + 1} 页`,
   custom: false
 }));
