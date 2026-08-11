@@ -77,10 +77,10 @@ export function seedNativeElements(index) {
       ];
     case 8:
       return [
-        shape(page, 1, '不承担', 'AVOID', 55, 31, 18, 10, coral, { radius: 999 }),
-        shape(page, 2, '大库存\n长期垫资\n重资产生产', 'Large Inventory\nWorking Capital\nHeavy Production', 54, 44, 20, 35, '#421d35', { borderColor: coral, borderWidth: 2 }),
-        shape(page, 3, '承担', 'OWN', 77, 31, 17, 10, green, { radius: 999 }),
-        shape(page, 4, '数据产品\n决策质量\n合规与协同', 'Data Product\nDecision Quality\nCompliance & Coordination', 76, 44, 20, 35, '#123a3a', { borderColor: green, borderWidth: 2 })
+        shape(page, 1, '不承担', 'AVOID', 54, 31, 20, 10, coral, { radius: 999, fontSize: 28 }),
+        shape(page, 2, '大库存\n长期垫资\n重资产生产', 'Large Inventory\nWorking Capital\nHeavy Production', 53, 43, 22, 37, '#351326', { borderColor: '#ff6f86', borderWidth: 3, fontSize: 32 }),
+        shape(page, 3, '承担', 'OWN', 77, 31, 19, 10, green, { radius: 999, fontSize: 28 }),
+        shape(page, 4, '数据产品\n决策质量\n合规与协同', 'Data Product\nDecision Quality\nCompliance & Coordination', 76, 43, 21, 37, '#0b3531', { borderColor: '#20d5a8', borderWidth: 3, fontSize: 32 })
       ];
     case 9:
       return [

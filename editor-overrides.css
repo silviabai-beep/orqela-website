@@ -13,6 +13,7 @@
 
 .published-layer {
   position: absolute;
+  z-index: 3;
   display: flex;
   align-items: center;
   padding: .35em .5em;
